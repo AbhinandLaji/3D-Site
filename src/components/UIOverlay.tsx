@@ -42,7 +42,7 @@ export default function UIOverlay() {
         scrollTrigger: {
           trigger: ".section-white",
           start: "top top",
-          end: "bottom top", // Fade out completely as the hero section leaves the viewport
+          end: "bottom top", 
           scrub: true,
         },
       });
@@ -60,7 +60,6 @@ export default function UIOverlay() {
       },
     });
     
-    // Revert to white at the very bottom (optional) or stay brown
     gsap.to(document.body, {
       backgroundColor: "#f5f0e6", // Light brown/beige
       color: "#2b1b11",
@@ -72,13 +71,36 @@ export default function UIOverlay() {
       },
     });
 
+    gsap.to(document.body, {
+      backgroundColor: "#e8ede7", // Soft greenish taupe for sustainability
+      color: "#2f4f2f", // Dark green text
+      scrollTrigger: {
+        trigger: ".section-eco",
+        start: "top 50%",
+        end: "top top",
+        scrub: true,
+      },
+    });
+
+    // Restore to white for testimonials and footer
+    gsap.to(document.body, {
+      backgroundColor: "#ffffff", 
+      color: "#2b1b11",
+      scrollTrigger: {
+        trigger: ".section-testimonials",
+        start: "top 70%",
+        end: "top 30%",
+        scrub: true,
+      },
+    });
+
   }, []);
 
   return (
     <div ref={containerRef} className="relative z-10 w-full pointer-events-none">
       
       {/* HERO SECTION */}
-      <div className="h-screen flex flex-col justify-between pt-8 pb-16 px-6 md:px-20 section-white overflow-hidden relative">
+      <div className="h-screen flex flex-col justify-center pt-8 pb-16 px-6 md:px-20 section-white overflow-hidden relative">
         
         {/* FADE OVERLAY: Washes out the 3D model behind the hero section */}
         <div 
@@ -86,25 +108,18 @@ export default function UIOverlay() {
           className="absolute inset-0 z-0 bg-gradient-to-b from-white/60 via-white/40 to-white/80 pointer-events-none"
         />
 
-        <header className="relative z-10 flex justify-between items-center w-full pointer-events-auto">
-          <div className="text-xl md:text-2xl font-bold tracking-tighter text-foreground drop-shadow-md">AURA</div>
-          <nav className="hidden md:flex gap-8 text-sm font-medium tracking-wide">
-            <a href="#" className="hover:text-accent-brown transition-colors drop-shadow-md">COLLECTION</a>
-            <a href="#" className="hover:text-accent-brown transition-colors drop-shadow-md">DESIGN</a>
-            <a href="#" className="hover:text-accent-brown transition-colors drop-shadow-md">SUSTAINABILITY</a>
-          </nav>
-          <button className="px-5 py-2 text-sm md:text-base md:px-6 md:py-2 bg-foreground text-background font-medium rounded-full hover:bg-accent-brown transition-colors shadow-lg">
-            SHOP NOW
-          </button>
-        </header>
-
-        <div className="text-section w-full max-w-4xl mx-auto text-center pointer-events-auto mt-16 md:mt-20 mb-auto relative z-10">
+        <div className="text-section w-full max-w-4xl mx-auto text-center pointer-events-auto relative z-10">
           <h1 className="text-5xl md:text-9xl font-bold tracking-tighter mb-4 text-foreground leading-[1]" style={{ textShadow: "0 4px 30px rgba(255,255,255,0.9), 0 2px 10px rgba(255,255,255,1)" }}>
             STEP INTO<br/>THE FUTURE
           </h1>
           <p className="text-base md:text-2xl font-medium text-foreground/90 mt-4 md:mt-6 bg-white/50 backdrop-blur-md inline-block px-4 py-2 md:px-6 md:py-2 rounded-full shadow-sm">
             Scroll to explore the anatomy of comfort.
           </p>
+          
+          <div className="absolute left-1/2 -translate-x-1/2 bottom-[-15vh] md:bottom-[-20vh] animate-bounce opacity-70">
+             <p className="text-xs tracking-widest uppercase mb-2">Scroll</p>
+             <div className="w-px h-12 bg-foreground mx-auto"></div>
+          </div>
         </div>
       </div>
 
@@ -116,11 +131,6 @@ export default function UIOverlay() {
           <p className="text-base md:text-xl opacity-90 leading-relaxed font-light">
             Crafted from ethically sourced, full-grain leather. Our shoes offer unparalleled durability and a rich, natural patina that evolves with every step you take.
           </p>
-          <div className="mt-8 md:mt-12 flex gap-3 md:gap-4">
-            <div className="w-12 md:w-16 h-1 bg-white opacity-20"></div>
-            <div className="w-12 md:w-16 h-1 bg-white opacity-100"></div>
-            <div className="w-12 md:w-16 h-1 bg-white opacity-20"></div>
-          </div>
         </div>
       </div>
 
@@ -129,17 +139,62 @@ export default function UIOverlay() {
         <div className="text-section max-w-xl text-left md:text-right pointer-events-auto w-full md:w-auto">
           <p className="text-xs md:text-sm tracking-widest uppercase mb-2 opacity-70">02 / Engineering</p>
           <h2 className="text-4xl md:text-7xl font-bold mb-4 md:mb-6 tracking-tight">Adaptive<br/>Cushioning</h2>
-          <p className="text-base md:text-xl opacity-90 leading-relaxed font-light mb-8 md:mb-10">
+          <p className="text-base md:text-xl opacity-90 leading-relaxed font-light">
             The sole adapts to your unique foot shape, distributing weight evenly for a weightless sensation throughout the day.
           </p>
-          <button className="w-full md:w-auto px-8 py-4 md:px-10 md:py-4 bg-foreground text-background text-base md:text-lg font-medium rounded-full hover:bg-accent-brown hover:text-white transition-all duration-300 shadow-xl">
-            PRE-ORDER
+        </div>
+      </div>
+
+      {/* SECTION 4: Sustainability */}
+      <div className="min-h-[150vh] flex flex-col items-center justify-center px-6 md:px-32 section-eco relative z-10">
+        <div className="text-section max-w-2xl text-center pointer-events-auto">
+          <p className="text-xs md:text-sm tracking-widest uppercase mb-2 opacity-70">03 / Future</p>
+          <h2 className="text-4xl md:text-7xl font-bold mb-4 md:mb-6 tracking-tight">Zero<br/>Footprint</h2>
+          <p className="text-base md:text-xl opacity-90 leading-relaxed font-light mb-10">
+            Engineered with 100% recycled polymers and plant-based dyes. We believe that stepping into the future means leaving no trace behind.
+          </p>
+          <button className="px-10 py-4 bg-foreground text-background text-base md:text-lg font-medium rounded-full hover:bg-accent-brown hover:text-white transition-all duration-300 shadow-xl">
+            PRE-ORDER NOW
           </button>
         </div>
       </div>
 
-      {/* Spacer */}
-      <div className="h-[20vh] md:h-[50vh]"></div>
+      {/* NON-3D TESTIMONIALS SECTION */}
+      <div className="py-32 px-6 md:px-20 section-testimonials bg-white pointer-events-auto relative z-20">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-section text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">What Our Wearers Say</h2>
+            <p className="text-lg text-gray-600">The verdict is in. Comfort has a new name.</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-section bg-gray-50 p-8 rounded-2xl">
+              <div className="flex gap-1 mb-4 text-yellow-500">
+                ★★★★★
+              </div>
+              <p className="text-gray-800 italic mb-6">"Literally the most comfortable shoes I have ever worn. It feels like walking on air, yet they look incredibly sleek and professional."</p>
+              <p className="font-bold text-sm tracking-widest uppercase">— Sarah J.</p>
+            </div>
+            
+            <div className="text-section bg-gray-50 p-8 rounded-2xl">
+              <div className="flex gap-1 mb-4 text-yellow-500">
+                ★★★★★
+              </div>
+              <p className="text-gray-800 italic mb-6">"The leather quality is outstanding. After 6 months of daily wear, they've developed a beautiful patina and somehow gotten even more comfortable."</p>
+              <p className="font-bold text-sm tracking-widest uppercase">— Marcus T.</p>
+            </div>
+            
+            <div className="text-section bg-gray-50 p-8 rounded-2xl">
+              <div className="flex gap-1 mb-4 text-yellow-500">
+                ★★★★★
+              </div>
+              <p className="text-gray-800 italic mb-6">"I love the sustainability aspect. Knowing I'm wearing a shoe that leaves a zero footprint makes every step feel better."</p>
+              <p className="font-bold text-sm tracking-widest uppercase">— Elena R.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 }

@@ -26,16 +26,24 @@ export function useScrollAssembly() {
         scrollTrigger: { trigger: document.body, start: "top top", end: "bottom bottom", scrub: 1 },
       });
 
+      // To Materials
       tl.to(el.position, { x: 1.5, y: -0.2, z: 0, duration: 1, ease: "power1.inOut" }, 0);
       tl.to(el.rotation, { x: 0, y: -1.2, z: 0.1, duration: 1, ease: "power1.inOut" }, 0);
       tl.to(el.scale, { x: 1.2, y: 1.2, z: 1.2, duration: 1, ease: "power1.inOut" }, 0);
 
+      // To Engineering
       tl.to(el.position, { x: -1.5, y: 0, z: 0.5, duration: 1, ease: "power1.inOut" }, 1);
       tl.to(el.rotation, { x: 0.2, y: 1.2, z: -0.1, duration: 1, ease: "power1.inOut" }, 1);
       tl.to(el.scale, { x: 1.4, y: 1.4, z: 1.4, duration: 1, ease: "power1.inOut" }, 1);
 
-      tl.to(el.position, { x: 0, y: -1, z: 1.5, duration: 0.5, ease: "power1.inOut" }, 2);
-      tl.to(el.rotation, { x: 0, y: 0, z: 0, duration: 0.5, ease: "power1.inOut" }, 2);
+      // To Sustainability (Centered, Top-down view or unique angle)
+      tl.to(el.position, { x: 0, y: 1, z: -1, duration: 1, ease: "power1.inOut" }, 2);
+      tl.to(el.rotation, { x: 1.2, y: 0, z: 0, duration: 1, ease: "power1.inOut" }, 2);
+      tl.to(el.scale, { x: 1, y: 1, z: 1, duration: 1, ease: "power1.inOut" }, 2);
+
+      // Fade out/Move away for Testimonials & Footer
+      tl.to(el.position, { x: 0, y: 3, z: -3, duration: 0.5, ease: "power1.in" }, 3);
+      tl.to(el.scale, { x: 0, y: 0, z: 0, duration: 0.5, ease: "power1.in" }, 3);
     });
 
     // MOBILE ANIMATIONS
@@ -59,9 +67,14 @@ export function useScrollAssembly() {
       tl.to(el.rotation, { x: 0.2, y: 1.2, z: -0.1, duration: 1, ease: "power1.inOut" }, 1);
       tl.to(el.scale, { x: 1.1, y: 1.1, z: 1.1, duration: 1, ease: "power1.inOut" }, 1);
 
-      // Phase 3 (Spacer)
-      tl.to(el.position, { x: 0, y: 0, z: 1, duration: 0.5, ease: "power1.inOut" }, 2);
-      tl.to(el.rotation, { x: 0, y: 0, z: 0, duration: 0.5, ease: "power1.inOut" }, 2);
+      // Phase 3 (Sustainability)
+      tl.to(el.position, { x: 0, y: -1, z: 0, duration: 1, ease: "power1.inOut" }, 2);
+      tl.to(el.rotation, { x: 1, y: 0, z: 0, duration: 1, ease: "power1.inOut" }, 2);
+      tl.to(el.scale, { x: 0.9, y: 0.9, z: 0.9, duration: 1, ease: "power1.inOut" }, 2);
+
+      // Fade out for Testimonials & Footer
+      tl.to(el.position, { x: 0, y: 3, z: -3, duration: 0.5, ease: "power1.in" }, 3);
+      tl.to(el.scale, { x: 0, y: 0, z: 0, duration: 0.5, ease: "power1.in" }, 3);
     });
 
     return () => {
