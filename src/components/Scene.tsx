@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas } from "@react-three/fiber";
-import { Environment } from "@react-three/drei";
+import { Environment, ContactShadows } from "@react-three/drei";
 import React, { Suspense } from "react";
 import Model from "./Model";
 import { useScrollAssembly } from "@/hooks/useScrollAssembly";
@@ -11,43 +11,38 @@ export default function Scene() {
 
   return (
     <div className="fixed inset-0 z-0 pointer-events-none">
-      {/* 
-        dpr capped to [1, 2] for performance
-        shadows disabled by default. If performance allows, add `shadows` to Canvas 
-        and `castShadow`/`receiveShadow` to lights and meshes.
-      */}
       <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 5], fov: 45 }}>
         <Suspense fallback={null}>
-          <ambientLight intensity={0.5} />
+          <ambientLight intensity={0.7} />
           
           <directionalLight 
             position={[5, 5, 5]} 
-            intensity={1.5} 
-            color="#ffffff" 
-          />
-          
-          <spotLight 
-            position={[-5, 5, -5]} 
             intensity={2} 
-            angle={0.5} 
-            penumbra={1} 
-            color="#88ccff" 
+            color="#ffffff" 
+            castShadow
           />
           
-          <spotLight 
-            position={[0, -5, 5]} 
+          <directionalLight 
+            position={[-5, 5, 5]} 
             intensity={1} 
-            angle={0.8} 
-            penumbra={0.5} 
-            color="#ffaa88" 
+            color="#f5deb3" 
           />
 
-          <Environment preset="city" />
+          <Environment preset="studio" environmentIntensity={1.2} />
 
-          {/* We wrap the model in a group to center/scale it if needed */}
-          <group position={[0, -1, 0]}>
+          <group position={[0, 0, 0]}>
             <Model onRefReady={setModelRef} />
           </group>
+
+          {/* Add a subtle shadow on the floor to ground the model */}
+          <ContactShadows 
+            position={[0, -1.2, 0]} 
+            opacity={0.4} 
+            scale={10} 
+            blur={2} 
+            far={4} 
+            color="#2b1b11"
+          />
         </Suspense>
       </Canvas>
     </div>

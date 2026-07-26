@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import LenisProvider from "@/components/LenisProvider";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,8 +16,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "3D Product Showcase",
-  description: "Immersive scroll-driven 3D product showcase",
+  title: "AURA | The Anatomy of Comfort",
+  description: "Immersive 3D product showcase for Aura Footwear. Experience sustainable engineering and premium craftsmanship.",
+  openGraph: {
+    title: "AURA | The Anatomy of Comfort",
+    description: "Immersive 3D product showcase for Aura Footwear.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -29,7 +36,13 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <LenisProvider>{children}</LenisProvider>
+        <LenisProvider>
+          <Navbar />
+          <div className="flex-grow">
+            {children}
+          </div>
+          <Footer />
+        </LenisProvider>
       </body>
     </html>
   );

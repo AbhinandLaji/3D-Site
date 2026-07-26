@@ -10,8 +10,7 @@ export default function LoadingScreen() {
   const textRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Disable scroll while loading by adding a class to html (if you have styling for it)
-    // or by letting the full-screen fixed overlay intercept clicks/scrolls
+    // Disable scroll while loading
     document.documentElement.classList.add("lenis-stopped");
 
     if (progress === 100) {
@@ -45,12 +44,18 @@ export default function LoadingScreen() {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-background"
     >
       <div ref={textRef} className="text-center">
-        <h1 className="text-4xl font-serif text-white mb-2">Loading Experience</h1>
-        <p className="text-xl font-mono text-gray-400">
-          {Math.round(progress)}%
+        <h1 className="text-5xl font-bold tracking-tighter text-foreground mb-4">AURA</h1>
+        <div className="w-48 h-1 bg-foreground/20 rounded-full mx-auto mb-2 overflow-hidden">
+          <div 
+            className="h-full bg-foreground rounded-full transition-all duration-300 ease-out"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+        <p className="text-sm font-medium tracking-widest text-foreground/60 uppercase">
+          Assembling {Math.round(progress)}%
         </p>
       </div>
     </div>

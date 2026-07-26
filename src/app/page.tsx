@@ -4,7 +4,7 @@ import LoadingScreen from "@/components/LoadingScreen";
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen bg-black">
+    <main className="relative min-h-screen bg-transparent">
       <LoadingScreen />
       
       {/* 
