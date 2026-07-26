@@ -4,6 +4,19 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 
+const particleConfig = [
+  { size: 3, left: 10, dur: 15, delay: -2 },
+  { size: 5, left: 25, dur: 18, delay: -5 },
+  { size: 4, left: 45, dur: 12, delay: -1 },
+  { size: 6, left: 65, dur: 20, delay: -8 },
+  { size: 2, left: 80, dur: 14, delay: -4 },
+  { size: 4, left: 90, dur: 17, delay: -10 },
+  { size: 3, left: 15, dur: 16, delay: -7 },
+  { size: 5, left: 35, dur: 22, delay: -3 },
+  { size: 4, left: 55, dur: 13, delay: -9 },
+  { size: 3, left: 75, dur: 19, delay: -6 },
+];
+
 export default function UIOverlay() {
   const containerRef = useRef<HTMLDivElement>(null);
   const fadeOverlayRef = useRef<HTMLDivElement>(null);
@@ -12,12 +25,14 @@ export default function UIOverlay() {
     const sections = gsap.utils.toArray<HTMLElement>(".text-section");
 
     sections.forEach((section) => {
-      gsap.fromTo(section,
-        { opacity: 0, y: 60, filter: "blur(4px)" },
+      // Staggered reveal for children
+      gsap.fromTo(section.children,
+        { opacity: 0, y: 40, filter: "blur(4px)" },
         {
           opacity: 1, y: 0, filter: "blur(0px)",
           duration: 1.2, ease: "power4.out",
-          scrollTrigger: { trigger: section, start: "top 82%", end: "top 45%", scrub: 1.2 },
+          stagger: 0.2,
+          scrollTrigger: { trigger: section, start: "top 85%", end: "top 40%", scrub: 1.2 },
         }
       );
     });
@@ -73,8 +88,22 @@ export default function UIOverlay() {
       {/* ──────────────── HERO ──────────────── */}
       <div className="h-screen flex flex-col justify-center items-center px-6 md:px-20 section-white overflow-hidden relative">
         
+        {/* Floating Particles */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+          {particleConfig.map((p, i) => (
+            <div key={i} className="particle particle-float" style={{
+              width: p.size + 'px',
+              height: p.size + 'px',
+              left: p.left + '%',
+              top: '105%',
+              animationDuration: p.dur + 's',
+              animationDelay: p.delay + 's',
+            }} />
+          ))}
+        </div>
+
         {/* Ivory fade overlay */}
-        <div ref={fadeOverlayRef} className="absolute inset-0 z-0 bg-gradient-to-b from-[#f9f6f1]/70 via-[#f9f6f1]/30 to-[#f9f6f1]/80 pointer-events-none" />
+        <div ref={fadeOverlayRef} className="absolute inset-0 z-0 bg-gradient-to-b from-[var(--bg-hero)]/70 via-[var(--bg-hero)]/30 to-[var(--bg-hero)]/80 pointer-events-none" />
 
         {/* Top-left corner detail */}
         <div className="absolute top-24 left-6 md:left-12 z-10 pointer-events-auto">
@@ -114,8 +143,8 @@ export default function UIOverlay() {
 
           {/* Scroll indicator */}
           <div className="absolute left-1/2 -translate-x-1/2 bottom-[-18vh] flex flex-col items-center gap-3 animate-bounce">
-            <span className="text-[9px] tracking-[0.4em] uppercase text-[#1a0f07]/40">Scroll</span>
-            <div className="w-px h-10 bg-gradient-to-b from-[#c8963c] to-transparent"></div>
+            <span className="text-[9px] tracking-[0.4em] uppercase text-[#1a0f07]/40 dark:text-[#f0ebe2]/40">Scroll</span>
+            <div className="w-px h-10 bg-gradient-to-b from-[var(--gold)] to-transparent"></div>
           </div>
         </div>
       </div>
