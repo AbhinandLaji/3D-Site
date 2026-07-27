@@ -11,7 +11,7 @@ export default function Scene() {
 
   return (
     <div className="fixed inset-0 z-0 pointer-events-none">
-      <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 5], fov: 45 }}>
+      <Canvas dpr={[1, 1.5]} camera={{ position: [0, 0, 5], fov: 45 }}>
         <Suspense fallback={null}>
           <ambientLight intensity={0.7} />
           
@@ -19,7 +19,6 @@ export default function Scene() {
             position={[5, 5, 5]} 
             intensity={2} 
             color="#ffffff" 
-            castShadow
           />
           
           <directionalLight 
@@ -34,15 +33,6 @@ export default function Scene() {
             <Model onRefReady={setModelRef} />
           </group>
 
-          {/* Add a subtle shadow on the floor to ground the model */}
-          <ContactShadows 
-            position={[0, -1.2, 0]} 
-            opacity={0.4} 
-            scale={10} 
-            blur={2} 
-            far={4} 
-            color="#2b1b11"
-          />
         </Suspense>
       </Canvas>
     </div>

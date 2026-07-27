@@ -16,12 +16,27 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AURA | The Anatomy of Comfort",
-  description: "Immersive 3D product showcase for Aura Footwear. Experience sustainable engineering and premium craftsmanship.",
+  title: "AURA | Premium Red Footwear & Sustainable Elegance",
+  description: "Experience the future of luxury footwear. Discover AURA's premium red leather craftsmanship, zero-footprint sustainable engineering, and adaptive cushioning through our interactive 3D showcase.",
+  keywords: [
+    "Aura Footwear", 
+    "luxury red heels", 
+    "sustainable stiletto", 
+    "adaptive cushioning", 
+    "3D shoe design", 
+    "zero footprint footwear", 
+    "premium women shoes"
+  ],
+  authors: [{ name: "AURA Design Lab" }],
+  robots: {
+    index: true,
+    follow: true,
+  },
   openGraph: {
-    title: "AURA | The Anatomy of Comfort",
-    description: "Immersive 3D product showcase for Aura Footwear.",
+    title: "AURA | Premium Red Footwear & Sustainable Elegance",
+    description: "Discover AURA's premium red leather craftsmanship and zero-footprint sustainable engineering through our interactive 3D showcase.",
     type: "website",
+    locale: "en_US",
   },
 };
 

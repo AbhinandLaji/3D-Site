@@ -18,30 +18,31 @@ export function useScrollAssembly() {
 
     // DESKTOP ANIMATIONS
     mm.add("(min-width: 768px)", () => {
-      el.position.set(0, -1.2, 2); 
-      el.rotation.set(0.1, 0.4, 0); 
-      el.scale.set(1.5, 1.5, 1.5); 
+      // Start: shoe fits neatly inside the heading gap
+      el.position.set(0, 0.1, 0); 
+      el.rotation.set(0.05, -0.25, 0.05); 
+      el.scale.set(1.1, 1.1, 1.1); 
 
       const tl = gsap.timeline({
         scrollTrigger: { trigger: document.body, start: "top top", end: "bottom bottom", scrub: 1 },
       });
 
-      // To Materials
+      // To Materials — move shoe right to show left-side content
       tl.to(el.position, { x: 1.5, y: -0.2, z: 0, duration: 1, ease: "power1.inOut" }, 0);
       tl.to(el.rotation, { x: 0, y: -1.2, z: 0.1, duration: 1, ease: "power1.inOut" }, 0);
-      tl.to(el.scale, { x: 1.2, y: 1.2, z: 1.2, duration: 1, ease: "power1.inOut" }, 0);
+      tl.to(el.scale, { x: 1.0, y: 1.0, z: 1.0, duration: 1, ease: "power1.inOut" }, 0);
 
-      // To Engineering
+      // To Engineering — move shoe left for right-side content
       tl.to(el.position, { x: -1.5, y: 0, z: 0.5, duration: 1, ease: "power1.inOut" }, 1);
       tl.to(el.rotation, { x: 0.2, y: 1.2, z: -0.1, duration: 1, ease: "power1.inOut" }, 1);
-      tl.to(el.scale, { x: 1.4, y: 1.4, z: 1.4, duration: 1, ease: "power1.inOut" }, 1);
+      tl.to(el.scale, { x: 1.1, y: 1.1, z: 1.1, duration: 1, ease: "power1.inOut" }, 1);
 
-      // To Sustainability (Centered, Top-down view or unique angle)
+      // To Sustainability — top-down dramatic angle
       tl.to(el.position, { x: 0, y: 1, z: -1, duration: 1, ease: "power1.inOut" }, 2);
       tl.to(el.rotation, { x: 1.2, y: 0, z: 0, duration: 1, ease: "power1.inOut" }, 2);
-      tl.to(el.scale, { x: 1, y: 1, z: 1, duration: 1, ease: "power1.inOut" }, 2);
+      tl.to(el.scale, { x: 1.0, y: 1.0, z: 1.0, duration: 1, ease: "power1.inOut" }, 2);
 
-      // Fade out/Move away for Testimonials & Footer
+      // Fade out for Testimonials & Footer
       tl.to(el.position, { x: 0, y: 3, z: -3, duration: 0.5, ease: "power1.in" }, 3);
       tl.to(el.scale, { x: 0, y: 0, z: 0, duration: 0.5, ease: "power1.in" }, 3);
     });

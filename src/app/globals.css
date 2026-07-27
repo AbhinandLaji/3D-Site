@@ -2,70 +2,102 @@
 @import "tailwindcss";
 
 :root {
-  /* Luxury off-white & espresso brown palette */
-  --background: #f9f6f1;
-  --foreground: #1a0f07;
-  --cream: #f0ebe2;
-  --ivory: #fdfaf5;
-  --espresso: #1a0f07;
-  --mahogany: #3d1f0f;
-  --saddle: #7a4228;
-  --caramel: #c07840;
-  --gold: #c8963c;
-  --warm-white: #faf8f4;
-  --deep-green: #1a2e1a;
+  /* ── PREMIUM RED SHOE PALETTE ── */
+  --background: #fdfaf8; /* Warm ivory white */
+  --foreground: #1a0a0a; /* Deep crimson-black */
+  
+  --cream: #f5ede8;      /* Blush rose cream */
+  --ivory: #fff9f7;      /* Pure warm white */
+  
+  --espresso: #2d0d0d;   /* Deep burgundy */
+  --mahogany: #5c1a1a;   /* Rich mahogany red */
+  --saddle: #8b3a3a;     /* Muted rose-red */
+  --caramel: #c47c7c;    /* Dusty rose */
+  
+  --gold: #b91c1c;       /* Deep crimson — primary accent for light backgrounds */
+  
+  --warm-white: #fdfaf8;
+  --deep-green: #1a0a0a;
 
   --font-display: 'Cormorant Garamond', serif;
   --font-body: 'Inter', sans-serif;
 
   /* Theme Phase Variables (Light Mode) */
-  --bg-hero: #f9f6f1;
-  --text-hero: #1a0f07;
-  
-  --bg-materials: #2b1208;
-  --text-materials: #f0ebe2;
+  --bg-hero: #fdfaf8;        /* Warm ivory */
+  --text-hero: #1a0a0a;
 
-  --bg-engineering: #f0ebe2;
-  --text-engineering: #1a0f07;
+  --bg-materials: #f5ede8;   /* Blush rose */
+  --text-materials: #1a0a0a;
 
-  --bg-sustainability: #1a2e1a;
-  --text-sustainability: #d4e8d4;
+  --bg-engineering: #2d0d0d; /* Deep burgundy */
+  --text-engineering: #fdfaf8;
 
-  --bg-testimonials: #f9f6f1;
-  --text-testimonials: #1a0f07;
+  --bg-sustainability: #1a0a0a; /* Near-black crimson */
+  --text-sustainability: #fdf2f2; /* Pure/warm white text for readability! */
+
+  --bg-testimonials: #fdfaf8;
+  --text-testimonials: #1a0a0a;
 }
 
 html.dark {
-  /* Dark Mode Palette Overrides */
-  --background: #0a0604;
-  --foreground: #f9f6f1;
-  --cream: #1a0f07;
-  --ivory: #0f0905;
-  --espresso: #f0ebe2;
+  /* Dark Mode — Luxe Noir & Crimson */
+  --background: #0d0505; /* Near-black with warm red undertone */
+  --foreground: #fdf2f2; /* Warm off-white */
+  --cream: #1a0a0a;
+  --ivory: #070202;
+  --espresso: #fdf2f2;
+  --gold: #ff5a5a; /* High contrast vibrant red for dark mode */
 
   /* Theme Phase Variables (Dark Mode) */
-  --bg-hero: #0a0604;
-  --text-hero: #f9f6f1;
-  
-  --bg-materials: #140804;
-  --text-materials: #dcbfa8;
+  --bg-hero: #0d0505;           /* Deep noir */
+  --text-hero: #fdf2f2;
 
-  --bg-engineering: #0f0905;
-  --text-engineering: #f9f6f1;
+  --bg-materials: #1a0505;      /* Dark burgundy */
+  --text-materials: #fdf2f2;
 
-  --bg-sustainability: #081208;
-  --text-sustainability: #a3c4a3;
+  --bg-engineering: #2d0d0d;    /* Rich mahogany */
+  --text-engineering: #fdf2f2;
 
-  --bg-testimonials: #0a0604;
-  --text-testimonials: #f9f6f1;
+  --bg-sustainability: #000000; /* Pitch black */
+  --text-sustainability: #fdf2f2; /* White text for readability! */
+
+  --bg-testimonials: #0d0505;
+  --text-testimonials: #fdf2f2;
 }
 
-/* Data Attribute Selectors for Scroll Phases */
-body[data-theme-phase="hero"] { background-color: var(--bg-hero); color: var(--text-hero); }
-body[data-theme-phase="materials"] { background-color: var(--bg-materials); color: var(--text-materials); }
-body[data-theme-phase="engineering"] { background-color: var(--bg-engineering); color: var(--text-engineering); }
-body[data-theme-phase="sustainability"] { background-color: var(--bg-sustainability); color: var(--text-sustainability); }
-body[data-theme-phase="testimonials"] { background-color: var(--bg-testimonials); color: var(--text-testimonials); }
+/* Data Attribute Selectors for Scroll Phases & Header Responsive Color States */
+body[data-theme-phase="hero"] { 
+  background-color: var(--bg-hero); 
+  color: var(--text-hero); 
+  --header-bg: var(--bg-hero);
+  --header-text: var(--text-hero);
+}
+body[data-theme-phase="materials"] { 
+  background-color: var(--bg-materials); 
+  color: var(--text-materials); 
+  --header-bg: var(--bg-materials);
+  --header-text: var(--text-materials);
+}
+body[data-theme-phase="engineering"] { 
+  background-color: var(--bg-engineering); 
+  color: var(--text-engineering); 
+  --gold: #ff5a5a; /* High contrast vibrant red for dark section */
+  --header-bg: var(--bg-engineering);
+  --header-text: var(--text-engineering);
+}
+body[data-theme-phase="sustainability"] { 
+  background-color: var(--bg-sustainability); 
+  color: var(--text-sustainability); 
+  --gold: #ff5a5a; /* High contrast vibrant red for dark section */
+  --header-bg: var(--bg-sustainability);
+  --header-text: var(--text-sustainability);
+}
+body[data-theme-phase="testimonials"] { 
+  background-color: var(--bg-testimonials); 
+  color: var(--text-testimonials); 
+  --header-bg: var(--bg-testimonials);
+  --header-text: var(--text-testimonials);
+}
 
 
 @theme inline {
@@ -214,11 +246,11 @@ body::after {
 .text-shimmer {
   background: linear-gradient(
     105deg,
-    var(--espresso) 0%,
-    var(--espresso) 40%,
-    var(--caramel) 50%,
-    var(--espresso) 60%,
-    var(--espresso) 100%
+    var(--text-hero) 0%,
+    var(--text-hero) 40%,
+    var(--gold) 50%,
+    var(--text-hero) 60%,
+    var(--text-hero) 100%
   );
   background-size: 200% auto;
   -webkit-background-clip: text;
@@ -230,11 +262,11 @@ body::after {
 .text-shimmer-light {
   background: linear-gradient(
     105deg,
-    #f0ebe2 0%,
-    #f0ebe2 40%,
+    var(--text-materials) 0%,
+    var(--text-materials) 40%,
     var(--gold) 50%,
-    #f0ebe2 60%,
-    #f0ebe2 100%
+    var(--text-materials) 60%,
+    var(--text-materials) 100%
   );
   background-size: 200% auto;
   -webkit-background-clip: text;
@@ -254,19 +286,20 @@ body::after {
 .btn-luxury {
   position: relative;
   overflow: hidden;
-  background: var(--espresso);
+  background: var(--gold);
   color: var(--ivory);
   letter-spacing: 0.15em;
   font-size: 0.7rem;
-  font-weight: 500;
+  font-weight: 600;
   text-transform: uppercase;
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid var(--gold);
 }
 .btn-luxury::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, var(--saddle), var(--caramel));
+  background: linear-gradient(135deg, var(--mahogany), var(--espresso));
   transform: translateX(-100%);
   transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -274,18 +307,18 @@ body::after {
 .btn-luxury span { position: relative; z-index: 1; }
 
 .card-luxury {
-  background: rgba(255, 255, 255, 0.6);
+  background: var(--background);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(122, 66, 40, 0.12);
-  box-shadow: 0 8px 32px rgba(26, 15, 7, 0.06),
-              inset 0 1px 0 rgba(255,255,255,0.8);
+  border: 1px solid var(--saddle);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1),
+              inset 0 1px 0 rgba(255,255,255,0.1);
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
               box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .card-luxury:hover {
   transform: translateY(-6px);
-  box-shadow: 0 24px 48px rgba(26, 15, 7, 0.12),
-              inset 0 1px 0 rgba(255,255,255,0.8);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2),
+              inset 0 1px 0 rgba(255,255,255,0.1);
 }
 
 .number-display {
@@ -294,7 +327,7 @@ body::after {
   font-weight: 300;
   line-height: 1;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(26, 15, 7, 0.12);
+  -webkit-text-stroke: 1px var(--foreground);
   pointer-events: none;
   user-select: none;
 }

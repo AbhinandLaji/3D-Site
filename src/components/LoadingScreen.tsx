@@ -49,7 +49,7 @@ export default function LoadingScreen() {
       <div ref={textRef} className="text-center">
         <h1 className="text-5xl font-bold tracking-tighter text-foreground mb-4">AURA</h1>
         <div className="w-48 h-1 bg-foreground/20 rounded-full mx-auto mb-2 overflow-hidden">
-          <div 
+          <div
             className="h-full bg-foreground rounded-full transition-all duration-300 ease-out"
             style={{ width: `${progress}%` }}
           />
