@@ -1,23 +1,25 @@
-import Scene from "@/components/Scene";
-import UIOverlay from "@/components/UIOverlay";
-import LoadingScreen from "@/components/LoadingScreen";
+import ImageSequenceHero from "@/components/ImageSequenceHero";
+import ContentSections from "@/components/ContentSections";
+
+// We keep the old 3D components in the project folder but don't render them here for now
+// import Scene from "@/components/Scene";
+// import UIOverlay from "@/components/UIOverlay";
+// import LoadingScreen from "@/components/LoadingScreen";
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen bg-transparent">
-      <LoadingScreen />
+    <main className="relative min-h-screen bg-background text-foreground">
+      {/* 
+        Image Sequence Hero handles its own preloader and full-screen 
+        canvas tied to scroll progress via GSAP.
+      */}
+      <ImageSequenceHero />
       
       {/* 
-        The Scene component is fixed to the background. 
-        It stays in place while the user scrolls.
+        Content Sections below the hero: 
+        Story and Car Inventory Placeholder
       */}
-      <Scene />
-      
-      {/* 
-        The UIOverlay contains the text sections that take up height 
-        and provide the scroll length (e.g., 400vh total).
-      */}
-      <UIOverlay />
+      <ContentSections />
     </main>
   );
 }
