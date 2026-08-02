@@ -397,28 +397,6 @@ export default function WatchContentSections() {
             </div>
           </div>
 
-          {/* Bottom Navigation Buttons placed BELOW the contents */}
-          <div className="mt-8 flex gap-4">
-            <button
-              onClick={handlePrev}
-              className="w-12 h-12 rounded-full border border-titanium/20 flex items-center justify-center text-titanium hover:text-foreground hover:border-gold hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="19" y1="12" x2="5" y2="12" />
-                <polyline points="12 19 5 12 12 5" />
-              </svg>
-            </button>
-            <button
-              onClick={handleNext}
-              className="w-12 h-12 rounded-full border border-titanium/20 flex items-center justify-center text-titanium hover:text-foreground hover:border-gold hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12" />
-                <polyline points="12 5 19 12 12 19" />
-              </svg>
-            </button>
-          </div>
-
         </div>
 
         {/* Bottom Left: Scroll Down indicator */}
