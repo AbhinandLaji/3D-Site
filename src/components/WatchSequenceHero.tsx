@@ -255,22 +255,52 @@ export default function WatchSequenceHero() {
 
   return (
     <>
-      {/* Loading Screen */}
+      {/* Loading Screen (Watch-inspired luxury loader) */}
       <div
         ref={loadingContainerRef}
-        className="fixed inset-0 z-[100] flex items-center justify-center bg-background"
+        className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#07070a]"
       >
-        <div ref={loadingTextRef} className="text-center">
-          <h1 className="text-5xl font-bold tracking-tighter text-foreground mb-4">AURA</h1>
-          <div className="w-48 h-1 bg-foreground/20 rounded-full mx-auto mb-2 overflow-hidden">
-            <div
-              className="h-full bg-foreground rounded-full transition-all duration-300 ease-out"
-              style={{ width: `${criticalPercent}%` }}
+        <div ref={loadingTextRef} className="flex flex-col items-center">
+          
+          {/* Circular Watch Face Loader */}
+          <div className="relative w-36 h-36 rounded-full border border-titanium/20 flex items-center justify-center bg-black/20 shadow-[0_0_50px_rgba(0,0,0,0.5)]">
+            
+            {/* Watch Face Ticks (12, 3, 6, 9 o'clock dots) */}
+            <span className="absolute top-2 w-1.5 h-1.5 rounded-full bg-gold/60"></span>
+            <span className="absolute right-2 w-1.5 h-1.5 rounded-full bg-titanium/40"></span>
+            <span className="absolute bottom-2 w-1.5 h-1.5 rounded-full bg-titanium/40"></span>
+            <span className="absolute left-2 w-1.5 h-1.5 rounded-full bg-titanium/40"></span>
+            
+            {/* Watch Face Sub-dial or concentric detail */}
+            <div className="w-28 h-28 rounded-full border border-dashed border-titanium/10 absolute"></div>
+
+            {/* Sweep Loading Hand (Hours/Minutes) — Tied to loading percentage */}
+            <div 
+              className="absolute w-[1.5px] h-12 bg-gold origin-bottom bottom-1/2 left-1/2 -translate-x-1/2 transition-transform duration-500 ease-out"
+              style={{ 
+                transform: `rotate(${(criticalPercent / 100) * 360}deg)`,
+                willChange: "transform"
+              }}
             />
+
+            {/* Faster Second Hand (Continuous sweeping micro-ticks for clock feeling) */}
+            <div 
+              className="absolute w-[0.75px] h-14 bg-red-500 origin-bottom bottom-1/2 left-1/2 -translate-x-1/2 animate-[spin_6s_linear_infinite]"
+              style={{ willChange: "transform" }}
+            />
+
+            {/* Center Gold Pin/Pivot */}
+            <div className="absolute w-3 h-3 rounded-full bg-gold border-2 border-[#07070a] shadow-md z-10"></div>
           </div>
-          <p className="text-sm font-medium tracking-widest text-foreground/60 uppercase">
+
+          {/* Luxury Typography details below the loader */}
+          <h1 className="text-xl tracking-[0.4em] font-light text-foreground uppercase mt-8 font-display">AURA</h1>
+          <p className="text-[10px] font-mono tracking-[0.25em] text-gold/80 uppercase mt-3">
             Calibrating... {criticalPercent}%
           </p>
+          <span className="text-[8px] font-mono tracking-[0.2em] text-titanium/40 uppercase mt-1">
+            Setting Escapement
+          </span>
         </div>
       </div>
 

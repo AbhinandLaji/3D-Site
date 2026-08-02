@@ -1,14 +1,13 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+// Re-compile trigger comment to clear dev server stale cache
 import ScrollTrigger from "gsap/ScrollTrigger";
 import Image from "next/image";
 import WatchTapReveal from "./WatchTapReveal";
 
-// FIX #6: LiveClock is isolated into its own component so only it re-renders
-// at 21×/sec — the rest of WatchContentSections stays still.
+// Live clock component: runs isolated to prevent re-rendering the entire page
 function LiveClock() {
   const [timeString, setTimeString] = useState("");
 
@@ -38,7 +37,7 @@ function LiveClock() {
   );
 }
 
-// FIX #9: MacroSlideshow uses Next.js <Image> for automatic WebP, lazy loading, and sizing
+// Macro slideshow in Section 1
 function MacroSlideshow() {
   const [macroIndex, setMacroIndex] = useState(0);
   const macroImages = ["/macro/macro-1.jpg", "/macro/macro-2.jpg", "/macro/macro-3.jpg"];
@@ -48,7 +47,6 @@ function MacroSlideshow() {
       setMacroIndex((prev) => (prev + 1) % macroImages.length);
     }, 4000);
     return () => clearInterval(slideTimer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -73,21 +71,77 @@ function MacroSlideshow() {
 export default function WatchContentSections() {
   const containerRef = useRef<HTMLDivElement>(null);
   const specNumbersRef = useRef<(HTMLSpanElement | null)[]>([]);
-  const bandContainerRef = useRef<HTMLDivElement>(null);
-  const bandWrapperRef = useRef<HTMLDivElement>(null);
+  const timekeepingSectionRef = useRef<HTMLDivElement>(null);
+
+  // Stateful Slider for The Band (restructured to match GLIDESPEAKERS mockup layout)
+  const [activeSlide, setActiveSlide] = useState(0);
+  
+  const bandSlides = [
+    {
+      name: "Italian Leather",
+      tagline: "TUSCAN ATELIER",
+      desc: "Sourced from historic tanneries in Florence. This supple full-grain strap breathes gracefully and patinas uniquely over time, telling your personal story.",
+      image: "/images/leather-band.png",
+      detailImage: "/images/leather-detail.png",
+      link: "#",
+      accent: "#b91c1c",
+      specs: [
+        { label: "Thickness", value: "2.8mm tapered" },
+        { label: "Origin", value: "Florence, Italy" },
+        { label: "Stitching", value: "Hand-threaded" }
+      ]
+    },
+    {
+      name: "Titanium Link",
+      tagline: "AEROSPACE GRADE",
+      desc: "Sculpted from Grade 5 titanium. Each individual link is micro-polished for a perfect weight-to-durability balance that feels virtually weightless on the wrist.",
+      image: "/images/titanium-band.png",
+      detailImage: "/images/titanium-detail.png",
+      link: "#",
+      accent: "#8a8a8e",
+      specs: [
+        { label: "Material", value: "Grade 5 Titanium" },
+        { label: "Locking", value: "Butterfly clasp" },
+        { label: "Finish", value: "Micro-polished" }
+      ]
+    },
+    {
+      name: "Sport Fluoro",
+      tagline: "ACTIVE MOTION",
+      desc: "Molded from high-performance fluoroelastomer. Impervious to sweat, water, and elements, yet surprisingly soft. Engineered to stretch with every pulse.",
+      image: "/images/sport-band.png",
+      detailImage: "/images/sport-detail.png",
+      link: "#",
+      accent: "#1e3a5f",
+      specs: [
+        { label: "Durability", value: "Water resistant" },
+        { label: "Texture", value: "Smooth satin" },
+        { label: "Closure", value: "Pin-and-tuck" }
+      ]
+    }
+  ];
+
+  const handleNext = () => {
+    setActiveSlide((prev) => (prev + 1) % bandSlides.length);
+  };
+
+  const handlePrev = () => {
+    setActiveSlide((prev) => (prev - 1 + bandSlides.length) % bandSlides.length);
+  };
+
+  const scrollDownToTimekeeping = () => {
+    timekeepingSectionRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    // FIX #4: Track only the triggers we create — never call ScrollTrigger.getAll().kill()
-    const ownTriggers: ScrollTrigger[] = [];
+    const ctx = gsap.context(() => {
+      // Specs Count Up Animation
+      specNumbersRef.current.forEach((el) => {
+        if (!el) return;
+        const targetVal = parseFloat(el.getAttribute("data-target") || "0");
 
-    // Section 1: Specs Count Up
-    specNumbersRef.current.forEach((el) => {
-      if (!el) return;
-      const targetVal = parseFloat(el.getAttribute("data-target") || "0");
-
-      const ctx = gsap.context(() => {
         gsap.fromTo(
           el,
           { innerHTML: 0 },
@@ -114,35 +168,10 @@ export default function WatchContentSections() {
           }
         );
       });
+    }, containerRef);
 
-      // Register cleanup of GSAP context instead of global kill
-      return () => ctx.revert();
-    });
-
-
-    // Section 3: Horizontal Scroll (The Band)
-    if (bandWrapperRef.current && bandContainerRef.current) {
-      const sections = gsap.utils.toArray<HTMLElement>(".band-panel");
-
-      const bandSt = gsap.to(sections, {
-        xPercent: -100 * (sections.length - 1),
-        ease: "none",
-        scrollTrigger: {
-          trigger: bandWrapperRef.current,
-          pin: true,
-          scrub: 1,
-          snap: 1 / (sections.length - 1),
-          end: () => "+=" + bandContainerRef.current?.offsetWidth,
-        },
-      });
-
-      // FIX #4: Push the trigger we own so we can kill only it
-      if (bandSt.scrollTrigger) ownTriggers.push(bandSt.scrollTrigger);
-    }
-
-    // FIX #4: Kill only our own triggers — never touches WatchSequenceHero's triggers
     return () => {
-      ownTriggers.forEach((t) => t.kill());
+      ctx.revert();
     };
   }, []);
 
@@ -153,11 +182,10 @@ export default function WatchContentSections() {
       <section className="relative min-h-screen flex flex-col md:flex-row items-center py-20 px-6 md:px-20 bg-background text-foreground">
         <div className="w-full md:w-1/2 h-[50vh] md:h-screen relative overflow-hidden flex items-center justify-center">
           <div className="absolute inset-0 bg-brushed opacity-30"></div>
-          {/* FIX #9: MacroSlideshow now uses Next.js <Image> */}
           <MacroSlideshow />
         </div>
         <div className="w-full md:w-1/2 flex flex-col justify-center pl-0 md:pl-20 mt-12 md:mt-0">
-          <h3 className="font-mono text-gold text-sm tracking-[0.3em] uppercase mb-6">The Case</h3>
+          <h3 className="font-mono text-gold text-sm tracking-[0.3em] uppercase mb-6 font-semibold">The Case</h3>
           <h2 className="font-display text-4xl md:text-6xl font-light mb-8 text-engraved">
             Grade 5 titanium. <br />Sapphire crystal. <br />50 meters of quiet confidence.
           </h2>
@@ -188,152 +216,175 @@ export default function WatchContentSections() {
       {/* SECTION 2: THE MOVEMENT */}
       <WatchTapReveal aodImage="/images/watch-aod.jpg" activeImage="/images/watch-active.jpg" />
 
-      {/* SECTION 3: THE BANDS */}
-      <div ref={bandWrapperRef} className="relative w-full h-screen overflow-hidden">
-        <div ref={bandContainerRef} className="flex h-full w-[300vw]">
-          {/* Panel 1: Leather */}
-          <div className="band-panel w-screen h-full flex flex-col md:flex-row items-center justify-center p-8 md:p-24 relative border-r border-titanium/10 overflow-hidden">
-            <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,rgba(185,28,28,0.15)_0%,transparent_70%)]"></div>
-            
-            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between w-full max-w-6xl gap-12 md:gap-20">
-              {/* Text column */}
-              <div className="flex flex-col items-start max-w-md w-full">
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="w-1.5 h-1.5 rounded-full bg-gold"></span>
-                  <span className="font-mono text-gold text-xs tracking-[0.4em] uppercase font-semibold">Tuscan Atelier</span>
-                </div>
-                <h2 className="font-display text-4xl md:text-6xl font-light text-foreground mb-6 leading-none">
-                  Italian <br /><span className="italic font-normal text-gold">Leather</span>
-                </h2>
-                <p className="text-sm md:text-base leading-relaxed text-titanium mb-8 font-light">
-                  Sourced from historic tanneries in Florence. This supple full-grain strap breathes gracefully and patinas uniquely over time, telling your personal story.
-                </p>
-                {/* Tech spec details */}
-                <div className="grid grid-cols-2 gap-6 w-full pt-6 border-t border-titanium/10 font-mono text-[10px] uppercase tracking-widest text-titanium/60">
-                  <div>
-                    <div className="text-foreground font-semibold mb-1">Thickness</div>
-                    <div>2.8mm tapered</div>
-                  </div>
-                  <div>
-                    <div className="text-foreground font-semibold mb-1">Origin</div>
-                    <div>Florence, Italy</div>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Image column with luxury frame */}
-              <div className="relative w-full md:w-1/2 aspect-video md:aspect-[4/3] max-w-lg border border-titanium/20 bg-black/40 rounded-xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.6)] group">
-                <Image src="/images/leather-band.png" alt="Italian Leather Band" fill className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105" sizes="(max-width: 768px) 100vw, 550px" />
-                <div className="absolute bottom-4 left-4 font-mono text-[9px] uppercase tracking-[0.3em] text-foreground/40 bg-black/40 px-3 py-1 rounded backdrop-blur-sm border border-white/5">
-                  Caliber Selection / 01
-                </div>
-              </div>
-            </div>
+      {/* SECTION 3: THE BAND SLIDER (GlideSpeakers Restructure) */}
+      <section className="relative min-h-[125vh] bg-[#07070a] text-foreground flex flex-col justify-between overflow-hidden py-10 px-6 md:px-16 border-t border-titanium/5">
+        
+        {/* Slider Header */}
+        <div className="flex justify-between items-center w-full relative z-30">
+          <span className="font-display text-lg tracking-[0.3em] font-light text-foreground opacity-90">AURA / STRAPS</span>
+          <div className="hidden md:flex gap-10 font-mono text-[10px] tracking-[0.35em] uppercase text-titanium">
+            <span className="hover:text-foreground cursor-pointer transition-colors duration-300">Materials</span>
+            <span className="hover:text-foreground cursor-pointer transition-colors duration-300">Calibers</span>
+            <span className="hover:text-foreground cursor-pointer transition-colors duration-300">Reserve</span>
           </div>
-
-          {/* Panel 2: Titanium */}
-          <div className="band-panel w-screen h-full flex flex-col md:flex-row items-center justify-center p-8 md:p-24 relative border-r border-titanium/10 overflow-hidden">
-            <div className="absolute inset-0 opacity-15 bg-[radial-gradient(circle_at_center,rgba(138,138,142,0.2)_0%,transparent_70%)]"></div>
-            
-            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between w-full max-w-6xl gap-12 md:gap-20">
-              {/* Text column */}
-              <div className="flex flex-col items-start max-w-md w-full">
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="w-1.5 h-1.5 rounded-full bg-gold"></span>
-                  <span className="font-mono text-gold text-xs tracking-[0.4em] uppercase font-semibold">Aerospace Grade</span>
-                </div>
-                <h2 className="font-display text-4xl md:text-6xl font-light text-foreground mb-6 leading-none">
-                  Titanium <br /><span className="italic font-normal text-gold">Link</span>
-                </h2>
-                <p className="text-sm md:text-base leading-relaxed text-titanium mb-8 font-light">
-                  Sculpted from Grade 5 titanium. Each individual link is micro-polished for a perfect weight-to-durability balance that feels virtually weightless on the wrist.
-                </p>
-                {/* Tech spec details */}
-                <div className="grid grid-cols-2 gap-6 w-full pt-6 border-t border-titanium/10 font-mono text-[10px] uppercase tracking-widest text-titanium/60">
-                  <div>
-                    <div className="text-foreground font-semibold mb-1">Material</div>
-                    <div>Grade 5 Titanium</div>
-                  </div>
-                  <div>
-                    <div className="text-foreground font-semibold mb-1">Locking</div>
-                    <div>Butterfly clasp</div>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Image column with luxury frame */}
-              <div className="relative w-full md:w-1/2 aspect-video md:aspect-[4/3] max-w-lg border border-titanium/20 bg-black/40 rounded-xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.6)] group">
-                <Image src="/images/titanium-band.png" alt="Titanium Link Band" fill className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105" sizes="(max-width: 768px) 100vw, 550px" />
-                <div className="absolute bottom-4 left-4 font-mono text-[9px] uppercase tracking-[0.3em] text-foreground/40 bg-black/40 px-3 py-1 rounded backdrop-blur-sm border border-white/5">
-                  Caliber Selection / 02
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Panel 3: Sport */}
-          <div className="band-panel w-screen h-full flex flex-col md:flex-row items-center justify-center p-8 md:p-24 relative overflow-hidden">
-            <div className="absolute inset-0 opacity-15 bg-[radial-gradient(circle_at_center,rgba(30,58,95,0.25)_0%,transparent_70%)]"></div>
-            
-            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between w-full max-w-6xl gap-12 md:gap-20">
-              {/* Text column */}
-              <div className="flex flex-col items-start max-w-md w-full">
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="w-1.5 h-1.5 rounded-full bg-gold"></span>
-                  <span className="font-mono text-gold text-xs tracking-[0.4em] uppercase font-semibold">Active Motion</span>
-                </div>
-                <h2 className="font-display text-4xl md:text-6xl font-light text-foreground mb-6 leading-none">
-                  Sport <br /><span className="italic font-normal text-gold">Fluoro</span>
-                </h2>
-                <p className="text-sm md:text-base leading-relaxed text-titanium mb-8 font-light">
-                  Molded from high-performance fluoroelastomer. Impervious to sweat, water, and elements, yet surprisingly soft. Engineered to stretch with every pulse.
-                </p>
-                {/* Tech spec details */}
-                <div className="grid grid-cols-2 gap-6 w-full pt-6 border-t border-titanium/10 font-mono text-[10px] uppercase tracking-widest text-titanium/60">
-                  <div>
-                    <div className="text-foreground font-semibold mb-1">Durability</div>
-                    <div>Element resistant</div>
-                  </div>
-                  <div>
-                    <div className="text-foreground font-semibold mb-1">Texture</div>
-                    <div>Smooth satin</div>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Image column with luxury frame */}
-              <div className="relative w-full md:w-1/2 aspect-video md:aspect-[4/3] max-w-lg border border-titanium/20 bg-black/40 rounded-xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.6)] group">
-                <Image src="/images/sport-band.png" alt="Sport Fluoroelastomer Band" fill className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105" sizes="(max-width: 768px) 100vw, 550px" />
-                <div className="absolute bottom-4 left-4 font-mono text-[9px] uppercase tracking-[0.3em] text-foreground/40 bg-black/40 px-3 py-1 rounded backdrop-blur-sm border border-white/5">
-                  Caliber Selection / 03
-                </div>
-              </div>
-            </div>
+          <div className="w-8 h-8 rounded-full border border-titanium/30 flex items-center justify-center cursor-pointer hover:border-gold transition-colors duration-300">
+            <div className="w-3.5 h-[1.5px] bg-foreground"></div>
           </div>
         </div>
-      </div>
+
+        {/* Slider Main Viewport */}
+        <div className="relative flex-grow flex flex-col items-center justify-center w-full z-20 my-6">
+          
+          {/* Slides Track */}
+          <div className="relative w-full max-w-5xl h-[330px] md:h-[350px] flex items-center justify-center">
+            {bandSlides.map((slide, index) => {
+              // Calculate offset relative to active slide
+              let offset = index - activeSlide;
+              if (offset < -1) offset += bandSlides.length;
+              if (offset > 1) offset -= bandSlides.length;
+
+              const isActive = offset === 0;
+              const isLeft = offset === -1;
+              const isRight = offset === 1;
+
+              return (
+                <div
+                  key={slide.name}
+                  onClick={() => {
+                    if (isLeft) handlePrev();
+                    if (isRight) handleNext();
+                  }}
+                  className={`absolute transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] flex flex-col items-center select-none
+                    ${isActive ? "z-20 scale-100 opacity-100 cursor-default" : "z-10 scale-[0.6] opacity-20 cursor-pointer blur-[1px] hover:opacity-35"}
+                  `}
+                  style={{
+                    transform: `translateX(${offset * 105}%)`,
+                    pointerEvents: isActive ? "auto" : "auto",
+                  }}
+                >
+                  {/* Card Image */}
+                  <div className={`relative w-[240px] md:w-[280px] aspect-[3/4] rounded-lg overflow-hidden border border-white/10 shadow-[0_20px_45px_rgba(0,0,0,0.8)] transition-all duration-700
+                    ${isActive ? "scale-100" : "scale-[0.9]"}
+                  `}>
+                    <Image
+                      src={slide.image}
+                      alt={slide.name}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 240px, 280px"
+                      priority={index === 0}
+                    />
+                    
+                    {/* Dark gradient base inside image */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent"></div>
+                    
+                    {/* Slide Text Overlaid inside bottom of the Active Card */}
+                    {isActive && (
+                      <div className="absolute bottom-6 left-6 right-6 text-left">
+                        <span className="font-mono text-[9px] tracking-[0.4em] text-gold uppercase font-semibold block mb-2">{slide.tagline}</span>
+                        <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-foreground leading-none">
+                          {slide.name}
+                        </h2>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Active Slide Specs details & Detail Image below the Card Track */}
+          <div className="mt-10 w-full max-w-4xl px-6 md:px-12 flex flex-col md:flex-row items-center md:items-start justify-between gap-10 min-h-[160px] animate-[fadeIn_0.8s_ease-out]">
+            {/* Left side: Specs & Description */}
+            <div className="flex-1 text-left flex flex-col items-start gap-5">
+              <p className="text-xs md:text-sm text-titanium leading-relaxed font-light max-w-md">
+                {bandSlides[activeSlide].desc}
+              </p>
+              <div className="grid grid-cols-3 gap-6 w-full pt-4 border-t border-titanium/10 font-mono text-[9px] uppercase tracking-widest text-titanium/60">
+                {bandSlides[activeSlide].specs.map((spec) => (
+                  <div key={spec.label}>
+                    <div className="text-foreground font-semibold mb-0.5">{spec.label}</div>
+                    <div>{spec.value}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right side: Detail image & Reserve Button */}
+            <div className="flex items-center gap-6">
+              <div className="relative w-28 h-20 border border-titanium/20 bg-black/45 rounded overflow-hidden shadow-lg group">
+                <Image src={bandSlides[activeSlide].detailImage} alt="Strap Macro Detail" fill className="object-cover transition-transform duration-700 hover:scale-110" sizes="112px" />
+              </div>
+              <div className="flex flex-col items-start gap-3">
+                <button className="px-6 py-2.5 rounded border border-titanium/30 hover:border-gold hover:text-gold text-[9px] tracking-[0.25em] uppercase font-mono transition-all duration-300 bg-transparent">
+                  Reserve {bandSlides[activeSlide].name.split(" ")[0]}
+                </button>
+                <span className="font-mono text-[8px] tracking-[0.3em] text-titanium/40 uppercase">Macro view / 40x</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Navigation Buttons placed BELOW the contents */}
+          <div className="mt-8 flex gap-4">
+            <button
+              onClick={handlePrev}
+              className="w-12 h-12 rounded-full border border-titanium/20 flex items-center justify-center text-titanium hover:text-foreground hover:border-gold hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12" />
+                <polyline points="12 19 5 12 12 5" />
+              </svg>
+            </button>
+            <button
+              onClick={handleNext}
+              className="w-12 h-12 rounded-full border border-titanium/20 flex items-center justify-center text-titanium hover:text-foreground hover:border-gold hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </button>
+          </div>
+
+        </div>
+
+        {/* Bottom Left: Scroll Down indicator */}
+        <div className="flex justify-start w-full relative z-30 pt-2">
+          <button
+            onClick={scrollDownToTimekeeping}
+            className="w-10 h-10 rounded-full border border-titanium/20 flex items-center justify-center text-titanium hover:text-foreground hover:border-gold transition-all duration-300 animate-pulse cursor-pointer"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <polyline points="19 12 12 19 5 12" />
+            </svg>
+          </button>
+        </div>
+
+      </section>
 
       {/* SECTION 4: TIMEKEEPING */}
-      <section className="relative min-h-screen flex items-center justify-center py-20 px-6 bg-midnight overflow-hidden">
-        <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
-          <svg className="w-[150vw] h-[150vw] animate-[spin_240s_linear_infinite]" viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="1 2" />
-            <circle cx="50" cy="50" r="30" fill="none" stroke="currentColor" strokeWidth="0.2" />
-            {Array.from({ length: 12 }).map((_, i) => (
-              <line key={i} x1="50" y1="5" x2="50" y2="10" transform={`rotate(${i * 30} 50 50)`} stroke="currentColor" strokeWidth="1" />
-            ))}
-          </svg>
-        </div>
+      <div ref={timekeepingSectionRef}>
+        <section className="relative min-h-screen flex items-center justify-center py-20 px-6 bg-midnight overflow-hidden">
+          <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
+            <svg className="w-[150vw] h-[150vw] animate-[spin_240s_linear_infinite]" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="1 2" />
+              <circle cx="50" cy="50" r="30" fill="none" stroke="currentColor" strokeWidth="0.2" />
+              {Array.from({ length: 12 }).map((_, i) => (
+                <line key={i} x1="50" y1="5" x2="50" y2="10" transform={`rotate(${i * 30} 50 50)`} stroke="currentColor" strokeWidth="1" />
+              ))}
+            </svg>
+          </div>
 
-        <div className="relative z-10 flex flex-col items-center text-center">
-          <h3 className="font-mono text-gold text-sm tracking-[0.3em] uppercase mb-12">Timekeeping</h3>
-          {/* FIX #6: Isolated — only this component re-renders at 21×/sec */}
-          <LiveClock />
-          <h2 className="font-display text-2xl md:text-4xl font-light text-titanium max-w-2xl">
-            It tells time. <br />It tells your story. <br />It knows when to stay silent.
-          </h2>
-        </div>
-      </section>
+          <div className="relative z-10 flex flex-col items-center text-center">
+            <h3 className="font-mono text-gold text-sm tracking-[0.3em] uppercase mb-12">Timekeeping</h3>
+            <LiveClock />
+            <h2 className="font-display text-2xl md:text-4xl font-light text-titanium max-w-2xl">
+              It tells time. <br />It tells your story. <br />It knows when to stay silent.
+            </h2>
+          </div>
+        </section>
+      </div>
 
       {/* SECTION 5: CONFIGURE YOURS */}
       <section className="relative min-h-screen py-32 px-6 md:px-20 bg-background flex flex-col items-center">

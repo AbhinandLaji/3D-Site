@@ -70,11 +70,91 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Rich Schema.org JSON-LD data for AEO (AI engines like Perplexity/Gemini)
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "AURA Precision Smartwatch",
+    "image": [
+      "/images/watch-active.jpg",
+      "/images/variant-midnight.png",
+      "/images/variant-gold.png",
+      "/images/variant-sapphire.png"
+    ],
+    "description": "A premium circular luxury smartwatch featuring a Grade 5 titanium case, sapphire crystal lens, and a 72-hour power reserve.",
+    "brand": {
+      "@type": "Brand",
+      "name": "AURA Timepieces"
+    },
+    "material": "Grade 5 Titanium, Sapphire Crystal, Ceramic",
+    "model": "AURA Caliber I",
+    "additionalProperty": [
+      {
+        "@type": "PropertyValue",
+        "name": "Case Diameter",
+        "value": "42mm"
+      },
+      {
+        "@type": "PropertyValue",
+        "name": "Power Reserve",
+        "value": "72 hours"
+      },
+      {
+        "@type": "PropertyValue",
+        "name": "Water Resistance",
+        "value": "100 meters (10 ATM)"
+      },
+      {
+        "@type": "PropertyValue",
+        "name": "Strap Materials",
+        "value": "Tuscan Italian Leather, Grade 5 Titanium Link, Active Sport Fluoroelastomer"
+      }
+    ],
+    "offers": {
+      "@type": "AggregateOffer",
+      "priceCurrency": "USD",
+      "offerCount": "3",
+      "price": "1499.00",
+      "lowPrice": "1499.00",
+      "highPrice": "2499.00",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "AURA Midnight Titanium",
+          "price": "1499.00",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/PreOrder"
+        },
+        {
+          "@type": "Offer",
+          "name": "AURA Champagne Gold PVD",
+          "price": "1999.00",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/PreOrder"
+        },
+        {
+          "@type": "Offer",
+          "name": "AURA Deep Sapphire Ceramic",
+          "price": "2499.00",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/PreOrder"
+        }
+      ]
+    }
+  };
+
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${bodoniModa.variable} ${robotoSlab.variable} ${cormorantGaramond.variable} h-full antialiased`}
     >
+      <head>
+        {/* Injecting JSON-LD schema for Search & AI Answer Engines */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+        />
+      </head>
       <body className="min-h-full flex flex-col">
         <LenisProvider>
           <Navbar />
