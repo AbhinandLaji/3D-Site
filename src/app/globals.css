@@ -2,113 +2,27 @@
 @import "tailwindcss";
 
 :root {
-  /* ── PREMIUM RED SHOE PALETTE ── */
-  --background: #fdfaf8; /* Warm ivory white */
-  --foreground: #1a0a0a; /* Deep crimson-black */
+  /* ── AURA SMARTWATCH PALETTE ── */
+  --midnight: #0a0a0f;
+  --champagne: #f5e6c8;
+  --titanium: #8a8a8e;
+  --sapphire: #1e3a5f;
+  --gold: #b91c1c; /* Kept existing gold variable name as requested */
   
-  --cream: #f5ede8;      /* Blush rose cream */
-  --ivory: #fff9f7;      /* Pure warm white */
+  --background: var(--midnight); 
+  --foreground: #f5f5f7;
   
-  --espresso: #2d0d0d;   /* Deep burgundy */
-  --mahogany: #5c1a1a;   /* Rich mahogany red */
-  --saddle: #8b3a3a;     /* Muted rose-red */
-  --caramel: #c47c7c;    /* Dusty rose */
-  
-  --gold: #b91c1c;       /* Deep crimson — primary accent for light backgrounds */
-  
-  --warm-white: #fdfaf8;
-  --deep-green: #1a0a0a;
-
   --font-display: 'Cormorant Garamond', serif;
   --font-body: 'Inter', sans-serif;
-
-  /* Theme Phase Variables (Light Mode) */
-  --bg-hero: #fdfaf8;        /* Warm ivory */
-  --text-hero: #1a0a0a;
-
-  --bg-materials: #f5ede8;   /* Blush rose */
-  --text-materials: #1a0a0a;
-
-  --bg-engineering: #2d0d0d; /* Deep burgundy */
-  --text-engineering: #fdfaf8;
-
-  --bg-sustainability: #1a0a0a; /* Near-black crimson */
-  --text-sustainability: #fdf2f2; /* Pure/warm white text for readability! */
-
-  --bg-testimonials: #fdfaf8;
-  --text-testimonials: #1a0a0a;
 }
-
-html.dark {
-  /* Dark Mode — Luxe Noir & Crimson */
-  --background: #0d0505; /* Near-black with warm red undertone */
-  --foreground: #fdf2f2; /* Warm off-white */
-  --cream: #1a0a0a;
-  --ivory: #070202;
-  --espresso: #fdf2f2;
-  --gold: #ff5a5a; /* High contrast vibrant red for dark mode */
-
-  /* Theme Phase Variables (Dark Mode) */
-  --bg-hero: #0d0505;           /* Deep noir */
-  --text-hero: #fdf2f2;
-
-  --bg-materials: #1a0505;      /* Dark burgundy */
-  --text-materials: #fdf2f2;
-
-  --bg-engineering: #2d0d0d;    /* Rich mahogany */
-  --text-engineering: #fdf2f2;
-
-  --bg-sustainability: #000000; /* Pitch black */
-  --text-sustainability: #fdf2f2; /* White text for readability! */
-
-  --bg-testimonials: #0d0505;
-  --text-testimonials: #fdf2f2;
-}
-
-/* Data Attribute Selectors for Scroll Phases & Header Responsive Color States */
-body[data-theme-phase="hero"] { 
-  background-color: var(--bg-hero); 
-  color: var(--text-hero); 
-  --header-bg: var(--bg-hero);
-  --header-text: var(--text-hero);
-}
-body[data-theme-phase="materials"] { 
-  background-color: var(--bg-materials); 
-  color: var(--text-materials); 
-  --header-bg: var(--bg-materials);
-  --header-text: var(--text-materials);
-}
-body[data-theme-phase="engineering"] { 
-  background-color: var(--bg-engineering); 
-  color: var(--text-engineering); 
-  --gold: #ff5a5a; /* High contrast vibrant red for dark section */
-  --header-bg: var(--bg-engineering);
-  --header-text: var(--text-engineering);
-}
-body[data-theme-phase="sustainability"] { 
-  background-color: var(--bg-sustainability); 
-  color: var(--text-sustainability); 
-  --gold: #ff5a5a; /* High contrast vibrant red for dark section */
-  --header-bg: var(--bg-sustainability);
-  --header-text: var(--text-sustainability);
-}
-body[data-theme-phase="testimonials"] { 
-  background-color: var(--bg-testimonials); 
-  color: var(--text-testimonials); 
-  --header-bg: var(--bg-testimonials);
-  --header-text: var(--text-testimonials);
-}
-
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-cream: var(--cream);
-  --color-ivory: var(--ivory);
-  --color-espresso: var(--espresso);
-  --color-mahogany: var(--mahogany);
-  --color-saddle: var(--saddle);
-  --color-caramel: var(--caramel);
+  --color-midnight: var(--midnight);
+  --color-champagne: var(--champagne);
+  --color-titanium: var(--titanium);
+  --color-sapphire: var(--sapphire);
   --color-gold: var(--gold);
   --font-sans: var(--font-body);
 }
@@ -243,6 +157,27 @@ body::after {
 }
 
 /* ─── UTILITY CLASSES ────────────────────────── */
+.text-engraved {
+  text-shadow: -1px -1px 1px rgba(255,255,255,0.1), 1px 1px 1px rgba(0,0,0,0.8);
+  color: var(--titanium);
+}
+
+.bg-brushed {
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.02) 0px,
+    rgba(255, 255, 255, 0.02) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  background-color: #1a1a1e;
+}
+
+.glass-sapphire {
+  background-color: rgba(10, 10, 15, 0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
 .text-shimmer {
   background: linear-gradient(
     105deg,

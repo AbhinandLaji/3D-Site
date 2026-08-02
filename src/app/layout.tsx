@@ -16,16 +16,15 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AURA | Premium Red Footwear & Sustainable Elegance",
-  description: "Experience the future of luxury footwear. Discover AURA's premium red leather craftsmanship, zero-footprint sustainable engineering, and adaptive cushioning through our interactive 3D showcase.",
+  title: "AURA | Precision Smartwatch",
+  description: "Experience the future of luxury horology. Discover AURA's premium smartwatch craftsmanship, precision engineering, and timeless elegance through our interactive showcase.",
   keywords: [
-    "Aura Footwear", 
-    "luxury red heels", 
-    "sustainable stiletto", 
-    "adaptive cushioning", 
-    "3D shoe design", 
-    "zero footprint footwear", 
-    "premium women shoes"
+    "Aura Smartwatch", 
+    "luxury timepiece", 
+    "precision watch", 
+    "titanium smartwatch", 
+    "horology", 
+    "premium wearables"
   ],
   authors: [{ name: "AURA Design Lab" }],
   robots: {
@@ -33,8 +32,8 @@ export const metadata: Metadata = {
     follow: true,
   },
   openGraph: {
-    title: "AURA | Premium Red Footwear & Sustainable Elegance",
-    description: "Discover AURA's premium red leather craftsmanship and zero-footprint sustainable engineering through our interactive 3D showcase.",
+    title: "AURA | Precision Smartwatch",
+    description: "Discover AURA's premium smartwatch craftsmanship and precision engineering through our interactive showcase.",
     type: "website",
     locale: "en_US",
   },

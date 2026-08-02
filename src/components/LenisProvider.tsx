@@ -16,7 +16,7 @@ function LenisSync() {
 
 export default function LenisProvider({ children }: { children: React.ReactNode }) {
   return (
-    <ReactLenis root>
+    <ReactLenis root options={{ lerp: 0.08 }}>
       <LenisSync />
       {children}
     </ReactLenis>
