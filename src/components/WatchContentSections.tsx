@@ -207,45 +207,125 @@ export default function WatchContentSections() {
       {/* SECTION 2: THE MOVEMENT */}
       <WatchTapReveal aodImage="/images/watch-aod.jpg" activeImage="/images/watch-active.jpg" />
 
-      {/* SECTION 3: THE BAND */}
-      <section ref={bandWrapperRef} className="relative h-screen bg-background overflow-hidden">
-        <div ref={bandContainerRef} className="absolute top-0 left-0 h-full w-[300vw] flex">
-
-          <div className="band-panel w-screen h-full flex flex-col md:flex-row items-center justify-center p-12 md:p-24 relative border-r border-titanium/10">
-            <div className="absolute inset-0 opacity-10 bg-gradient-to-tr from-amber-900 to-transparent"></div>
-            <div className="relative z-10 flex flex-col items-start max-w-lg">
-              <h3 className="font-mono text-gold text-sm tracking-[0.3em] uppercase mb-4">Italian Leather</h3>
-              <p className="font-display text-2xl md:text-4xl font-light text-foreground mb-6">Supple. Breathable. Patinas beautifully over time.</p>
-              <div className="w-full h-48 border border-titanium/20 bg-black/20 flex items-center justify-center">
-                <span className="font-mono text-titanium/50 text-xs tracking-widest">[LEATHER BAND IMG]</span>
+          {/* Panel 1: Leather */}
+          <div className="band-panel w-screen h-full flex flex-col md:flex-row items-center justify-center p-8 md:p-24 relative border-r border-titanium/10 overflow-hidden">
+            <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,rgba(185,28,28,0.15)_0%,transparent_70%)]"></div>
+            
+            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between w-full max-w-6xl gap-12 md:gap-20">
+              {/* Text column */}
+              <div className="flex flex-col items-start max-w-md w-full">
+                <div className="flex items-center gap-3 mb-6">
+                  <span className="w-1.5 h-1.5 rounded-full bg-gold"></span>
+                  <span className="font-mono text-gold text-xs tracking-[0.4em] uppercase font-semibold">Tuscan Atelier</span>
+                </div>
+                <h2 className="font-display text-4xl md:text-6xl font-light text-foreground mb-6 leading-none">
+                  Italian <br /><span className="italic font-normal text-gold">Leather</span>
+                </h2>
+                <p className="text-sm md:text-base leading-relaxed text-titanium mb-8 font-light">
+                  Sourced from historic tanneries in Florence. This supple full-grain strap breathes gracefully and patinas uniquely over time, telling your personal story.
+                </p>
+                {/* Tech spec details */}
+                <div className="grid grid-cols-2 gap-6 w-full pt-6 border-t border-titanium/10 font-mono text-[10px] uppercase tracking-widest text-titanium/60">
+                  <div>
+                    <div className="text-foreground font-semibold mb-1">Thickness</div>
+                    <div>2.8mm tapered</div>
+                  </div>
+                  <div>
+                    <div className="text-foreground font-semibold mb-1">Origin</div>
+                    <div>Florence, Italy</div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Image column with luxury frame */}
+              <div className="relative w-full md:w-1/2 aspect-video md:aspect-[4/3] max-w-lg border border-titanium/20 bg-black/40 rounded-xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.6)] group">
+                <Image src="/images/leather-band.png" alt="Italian Leather Band" fill className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105" sizes="(max-width: 768px) 100vw, 550px" />
+                <div className="absolute bottom-4 left-4 font-mono text-[9px] uppercase tracking-[0.3em] text-foreground/40 bg-black/40 px-3 py-1 rounded backdrop-blur-sm border border-white/5">
+                  Caliber Selection / 01
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="band-panel w-screen h-full flex flex-col md:flex-row items-center justify-center p-12 md:p-24 relative border-r border-titanium/10">
-            <div className="absolute inset-0 bg-brushed opacity-20"></div>
-            <div className="relative z-10 flex flex-col items-start max-w-lg">
-              <h3 className="font-mono text-gold text-sm tracking-[0.3em] uppercase mb-4">Titanium Link</h3>
-              <p className="font-display text-2xl md:text-4xl font-light text-foreground mb-6">Machined from aerospace-grade Grade 5 titanium.</p>
-              <div className="w-full h-48 border border-titanium/20 bg-black/20 flex items-center justify-center">
-                <span className="font-mono text-titanium/50 text-xs tracking-widest">[TITANIUM BAND IMG]</span>
+          {/* Panel 2: Titanium */}
+          <div className="band-panel w-screen h-full flex flex-col md:flex-row items-center justify-center p-8 md:p-24 relative border-r border-titanium/10 overflow-hidden">
+            <div className="absolute inset-0 opacity-15 bg-[radial-gradient(circle_at_center,rgba(138,138,142,0.2)_0%,transparent_70%)]"></div>
+            
+            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between w-full max-w-6xl gap-12 md:gap-20">
+              {/* Text column */}
+              <div className="flex flex-col items-start max-w-md w-full">
+                <div className="flex items-center gap-3 mb-6">
+                  <span className="w-1.5 h-1.5 rounded-full bg-gold"></span>
+                  <span className="font-mono text-gold text-xs tracking-[0.4em] uppercase font-semibold">Aerospace Grade</span>
+                </div>
+                <h2 className="font-display text-4xl md:text-6xl font-light text-foreground mb-6 leading-none">
+                  Titanium <br /><span className="italic font-normal text-gold">Link</span>
+                </h2>
+                <p className="text-sm md:text-base leading-relaxed text-titanium mb-8 font-light">
+                  Sculpted from Grade 5 titanium. Each individual link is micro-polished for a perfect weight-to-durability balance that feels virtually weightless on the wrist.
+                </p>
+                {/* Tech spec details */}
+                <div className="grid grid-cols-2 gap-6 w-full pt-6 border-t border-titanium/10 font-mono text-[10px] uppercase tracking-widest text-titanium/60">
+                  <div>
+                    <div className="text-foreground font-semibold mb-1">Material</div>
+                    <div>Grade 5 Titanium</div>
+                  </div>
+                  <div>
+                    <div className="text-foreground font-semibold mb-1">Locking</div>
+                    <div>Butterfly clasp</div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Image column with luxury frame */}
+              <div className="relative w-full md:w-1/2 aspect-video md:aspect-[4/3] max-w-lg border border-titanium/20 bg-black/40 rounded-xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.6)] group">
+                <Image src="/images/titanium-band.png" alt="Titanium Link Band" fill className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105" sizes="(max-width: 768px) 100vw, 550px" />
+                <div className="absolute bottom-4 left-4 font-mono text-[9px] uppercase tracking-[0.3em] text-foreground/40 bg-black/40 px-3 py-1 rounded backdrop-blur-sm border border-white/5">
+                  Caliber Selection / 02
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="band-panel w-screen h-full flex flex-col md:flex-row items-center justify-center p-12 md:p-24 relative">
-            <div className="absolute inset-0 opacity-10 bg-gradient-to-b from-blue-900 to-black"></div>
-            <div className="relative z-10 flex flex-col items-start max-w-lg">
-              <h3 className="font-mono text-gold text-sm tracking-[0.3em] uppercase mb-4">Sport Fluoroelastomer</h3>
-              <p className="font-display text-2xl md:text-4xl font-light text-foreground mb-6">Impervious to elements. Engineered for motion.</p>
-              <div className="w-full h-48 border border-titanium/20 bg-black/20 flex items-center justify-center">
-                <span className="font-mono text-titanium/50 text-xs tracking-widest">[SPORT BAND IMG]</span>
+          {/* Panel 3: Sport */}
+          <div className="band-panel w-screen h-full flex flex-col md:flex-row items-center justify-center p-8 md:p-24 relative overflow-hidden">
+            <div className="absolute inset-0 opacity-15 bg-[radial-gradient(circle_at_center,rgba(30,58,95,0.25)_0%,transparent_70%)]"></div>
+            
+            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between w-full max-w-6xl gap-12 md:gap-20">
+              {/* Text column */}
+              <div className="flex flex-col items-start max-w-md w-full">
+                <div className="flex items-center gap-3 mb-6">
+                  <span className="w-1.5 h-1.5 rounded-full bg-gold"></span>
+                  <span className="font-mono text-gold text-xs tracking-[0.4em] uppercase font-semibold">Active Motion</span>
+                </div>
+                <h2 className="font-display text-4xl md:text-6xl font-light text-foreground mb-6 leading-none">
+                  Sport <br /><span className="italic font-normal text-gold">Fluoro</span>
+                </h2>
+                <p className="text-sm md:text-base leading-relaxed text-titanium mb-8 font-light">
+                  Molded from high-performance fluoroelastomer. Impervious to sweat, water, and elements, yet surprisingly soft. Engineered to stretch with every pulse.
+                </p>
+                {/* Tech spec details */}
+                <div className="grid grid-cols-2 gap-6 w-full pt-6 border-t border-titanium/10 font-mono text-[10px] uppercase tracking-widest text-titanium/60">
+                  <div>
+                    <div className="text-foreground font-semibold mb-1">Durability</div>
+                    <div>Element resistant</div>
+                  </div>
+                  <div>
+                    <div className="text-foreground font-semibold mb-1">Texture</div>
+                    <div>Smooth satin</div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Image column with luxury frame */}
+              <div className="relative w-full md:w-1/2 aspect-video md:aspect-[4/3] max-w-lg border border-titanium/20 bg-black/40 rounded-xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.6)] group">
+                <Image src="/images/sport-band.png" alt="Sport Fluoroelastomer Band" fill className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105" sizes="(max-width: 768px) 100vw, 550px" />
+                <div className="absolute bottom-4 left-4 font-mono text-[9px] uppercase tracking-[0.3em] text-foreground/40 bg-black/40 px-3 py-1 rounded backdrop-blur-sm border border-white/5">
+                  Caliber Selection / 03
+                </div>
               </div>
             </div>
           </div>
-
-        </div>
-      </section>
 
       {/* SECTION 4: TIMEKEEPING */}
       <section className="relative min-h-screen flex items-center justify-center py-20 px-6 bg-midnight overflow-hidden">
@@ -278,25 +358,23 @@ export default function WatchContentSections() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl">
           {[
-            { name: "Midnight Titanium", desc: "Grade 5 Titanium / Stealth Band", color: "bg-zinc-800" },
-            { name: "Champagne Gold", desc: "18k PVD Coating / Leather Band", color: "bg-amber-700/50" },
-            { name: "Deep Sapphire", desc: "Ceramic Case / Sport Band", color: "bg-blue-900/50" },
+            { name: "Midnight Titanium", desc: "Grade 5 Titanium / Stealth Band", color: "bg-zinc-800", image: "/images/variant-midnight.png" },
+            { name: "Champagne Gold", desc: "18k PVD Coating / Leather Band", color: "bg-amber-700/50", image: "/images/variant-gold.png" },
+            { name: "Deep Sapphire", desc: "Ceramic Case / Sport Band", color: "bg-blue-900/50", image: "/images/variant-sapphire.png" },
           ].map((variant, i) => (
             <div key={i} className="group flex flex-col items-center cursor-pointer">
-              <div className="w-full aspect-[3/4] border border-titanium/20 bg-black/10 flex items-center justify-center relative overflow-hidden mb-6 transition-colors duration-500 hover:bg-black/20">
+              <div className="w-full aspect-[3/4] border border-titanium/20 bg-black/10 flex items-center justify-center relative overflow-hidden mb-6 rounded-lg shadow-[0_10px_25px_rgba(0,0,0,0.3)]">
+                <Image src={variant.image} alt={variant.name} fill className="object-cover transition-transform duration-1000 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 350px" />
                 <div className={`absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-700 ${variant.color}`}></div>
-                <div className="w-32 h-32 rounded-full border border-titanium/30 flex items-center justify-center relative z-10">
-                  <span className="font-mono text-[10px] text-titanium/50">VARIANT {i + 1}</span>
-                </div>
               </div>
-              <h3 className="font-display text-2xl mb-2">{variant.name}</h3>
+              <h3 className="font-display text-2xl mb-2 text-foreground group-hover:text-gold transition-colors duration-300">{variant.name}</h3>
               <p className="font-mono text-xs text-titanium uppercase tracking-widest text-center">{variant.desc}</p>
             </div>
           ))}
         </div>
 
         <div className="mt-24">
-          <button className="btn-luxury px-12 py-5 tracking-[0.3em]">
+          <button className="btn-luxury px-12 py-5 tracking-[0.3em] rounded">
             <span>Reserve Your AURA</span>
           </button>
         </div>
