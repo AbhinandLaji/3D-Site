@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import WatchTapReveal from "./WatchTapReveal";
 
 export default function WatchContentSections() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -167,29 +168,11 @@ export default function WatchContentSections() {
         </div>
       </section>
 
-      {/* SECTION 2: THE MOVEMENT (Technology) */}
-      <section className="movement-section relative min-h-screen flex flex-col items-center justify-center py-32 px-6 md:px-20 bg-midnight text-foreground border-y border-titanium/10">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--sapphire)_0%,_transparent_70%)] opacity-10"></div>
-        
-        <div className="relative z-10 text-center max-w-3xl mx-auto mb-20">
-          <h3 className="font-mono text-gold text-sm tracking-[0.3em] uppercase mb-6">The Movement</h3>
-          <h2 className="font-display text-3xl md:text-5xl font-light text-engraved">A chipset engineered for decades,<br/>not upgrade cycles.</h2>
-        </div>
-
-        <div className="relative w-full max-w-xl aspect-square rounded-full border border-titanium/20 bg-black/40 backdrop-blur-md flex items-center justify-center">
-          <span className="font-mono text-titanium/30 text-xs tracking-widest">[WATCH FACE PLACEHOLDER]</span>
-          
-          {/* Complications */}
-          <div className="complication absolute top-[25%] right-[25%] w-16 h-16 rounded-full border border-gold/30 flex flex-col items-center justify-center bg-black/50">
-            <span className="text-[10px] font-mono text-gold">28</span>
-            <span className="text-[8px] font-mono text-titanium uppercase">Date</span>
-          </div>
-          <div className="complication absolute bottom-[25%] left-[25%] w-20 h-20 rounded-full border border-titanium/30 flex flex-col items-center justify-center bg-black/50">
-            <div className="w-10 h-10 rounded-full bg-sapphire/20 border border-sapphire/50"></div>
-            <span className="text-[8px] font-mono text-titanium uppercase mt-1">Phase</span>
-          </div>
-        </div>
-      </section>
+      {/* SECTION 2: THE MOVEMENT (Interactive Watch Face) */}
+      <WatchTapReveal 
+        aodImage="/images/watch-aod.jpg" 
+        activeImage="/images/watch-active.jpg" 
+      />
 
       {/* SECTION 3: THE BAND (Craftsmanship) */}
       <section ref={bandWrapperRef} className="relative h-screen bg-background overflow-hidden">
