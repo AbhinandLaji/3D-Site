@@ -76,6 +76,11 @@ export default function WatchContentSections() {
   // Stateful Slider for The Band (restructured to match GLIDESPEAKERS mockup layout)
   const [activeSlide, setActiveSlide] = useState(0);
   
+  // Dragging states for swipe gestures
+  const [dragX, setDragX] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStartRef = useRef(0);
+
   const bandSlides = [
     {
       name: "Italian Leather",
@@ -106,6 +111,34 @@ export default function WatchContentSections() {
       ]
     },
     {
+      name: "Gold Milanese",
+      tagline: "18K PVD COATING",
+      desc: "Woven from delicate gold-tone stainless steel mesh. Features a fully magnetic loop design that is infinitely adjustable for a perfect, elegant fit.",
+      image: "/images/variant-gold.png",
+      detailImage: "/images/milanese-detail.png",
+      link: "#",
+      accent: "#c5a880",
+      specs: [
+        { label: "Material", value: "316L Stainless" },
+        { label: "Clasp", value: "Magnetic Loop" },
+        { label: "Origin", value: "Milan, Italy" }
+      ]
+    },
+    {
+      name: "Obsidian Ceramic",
+      tagline: "MIDNIGHT STEALTH",
+      desc: "Polished to a brilliant mirror finish. Each link is individually molded from zirconia ceramic, offering unmatched scratch resistance and premium weight.",
+      image: "/images/variant-midnight.png",
+      detailImage: "/images/obsidian-detail.png",
+      link: "#",
+      accent: "#121214",
+      specs: [
+        { label: "Composition", value: "Zirconia Ceramic" },
+        { label: "Locking", value: "Deployant Buckle" },
+        { label: "Finish", value: "Mirror Polish" }
+      ]
+    },
+    {
       name: "Sport Fluoro",
       tagline: "ACTIVE MOTION",
       desc: "Molded from high-performance fluoroelastomer. Impervious to sweat, water, and elements, yet surprisingly soft. Engineered to stretch with every pulse.",
@@ -127,6 +160,32 @@ export default function WatchContentSections() {
 
   const handlePrev = () => {
     setActiveSlide((prev) => (prev - 1 + bandSlides.length) % bandSlides.length);
+  };
+
+  // Dragging event handlers
+  const handleDragStart = (clientX: number) => {
+    setIsDragging(true);
+    dragStartRef.current = clientX;
+    setDragX(0);
+  };
+
+  const handleDragMove = (clientX: number) => {
+    if (!isDragging) return;
+    const diff = clientX - dragStartRef.current;
+    setDragX(diff);
+  };
+
+  const handleDragEnd = () => {
+    if (!isDragging) return;
+    setIsDragging(false);
+    
+    // Swipe threshold: 60px
+    if (dragX < -60) {
+      handleNext();
+    } else if (dragX > 60) {
+      handlePrev();
+    }
+    setDragX(0);
   };
 
   const scrollDownToTimekeeping = () => {
@@ -236,16 +295,27 @@ export default function WatchContentSections() {
         <div className="relative flex-grow flex flex-col items-center justify-center w-full z-20 my-6">
           
           {/* Slides Track */}
-          <div className="relative w-full max-w-5xl h-[330px] md:h-[350px] flex items-center justify-center">
+          <div 
+            className="relative w-full max-w-5xl h-[330px] md:h-[350px] flex items-center justify-center cursor-grab active:cursor-grabbing touch-none select-none"
+            onMouseDown={(e) => handleDragStart(e.clientX)}
+            onMouseMove={(e) => handleDragMove(e.clientX)}
+            onMouseUp={handleDragEnd}
+            onMouseLeave={handleDragEnd}
+            onTouchStart={(e) => handleDragStart(e.touches[0].clientX)}
+            onTouchMove={(e) => handleDragMove(e.touches[0].clientX)}
+            onTouchEnd={handleDragEnd}
+          >
             {bandSlides.map((slide, index) => {
-              // Calculate offset relative to active slide
+              // Circular offset range -2 to 2 (fits 5 slides, showing 2 previews on each side)
               let offset = index - activeSlide;
-              if (offset < -1) offset += bandSlides.length;
-              if (offset > 1) offset -= bandSlides.length;
+              if (offset < -2) offset += bandSlides.length;
+              if (offset > 2) offset -= bandSlides.length;
 
               const isActive = offset === 0;
               const isLeft = offset === -1;
               const isRight = offset === 1;
+              const isOuterLeft = offset === -2;
+              const isOuterRight = offset === 2;
 
               return (
                 <div
@@ -254,12 +324,15 @@ export default function WatchContentSections() {
                     if (isLeft) handlePrev();
                     if (isRight) handleNext();
                   }}
-                  className={`absolute transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] flex flex-col items-center select-none
-                    ${isActive ? "z-20 scale-100 opacity-100 cursor-default" : "z-10 scale-[0.6] opacity-20 cursor-pointer blur-[1px] hover:opacity-35"}
+                  className={`absolute flex flex-col items-center select-none
+                    ${isDragging ? "transition-none" : "transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]"}
+                    ${isActive ? "z-30 scale-100 opacity-100 cursor-default" : ""}
+                    ${isLeft || isRight ? "z-20 scale-[0.75] opacity-35 cursor-pointer hover:opacity-50 blur-[0.5px]" : ""}
+                    ${isOuterLeft || isOuterRight ? "z-10 scale-[0.55] opacity-[0.08] cursor-pointer hover:opacity-[0.15] blur-[2.5px]" : ""}
                   `}
                   style={{
-                    transform: `translateX(${offset * 105}%)`,
-                    pointerEvents: isActive ? "auto" : "auto",
+                    transform: `translateX(calc(${offset * 105}% + ${dragX}px))`,
+                    pointerEvents: (isActive || isLeft || isRight) ? "auto" : "none",
                   }}
                 >
                   {/* Card Image */}
