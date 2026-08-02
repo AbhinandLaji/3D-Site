@@ -6,7 +6,9 @@ import { useTexture } from "@react-three/drei";
 import { ColladaLoader } from "three-stdlib";
 import * as THREE from "three";
 
-type ModelProps = JSX.IntrinsicElements["group"] & {
+import type { ThreeElements } from "@react-three/fiber";
+
+type ModelProps = ThreeElements["group"] & {
   onRefReady?: (ref: THREE.Group | null) => void;
 };
 
