@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { ReactLenis, useLenis } from "lenis/react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
@@ -18,6 +19,14 @@ function LenisSync() {
 }
 
 export default function LenisProvider({ children }: { children: React.ReactNode }) {
+  useEffect(() => {
+    // Disable native browser scroll restoration and force scroll to top on refresh
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <ReactLenis root options={{ lerp: 0.08 }}>
       <LenisSync />
