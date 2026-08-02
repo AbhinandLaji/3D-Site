@@ -15,8 +15,8 @@ const SEQUENCE_PATH = '/sequence';
 // frameStart/frameEnd are the corresponding frame indices for that segment.
 interface ScrollSegment {
   name: string;
-  scrollStart: number; 
-  scrollEnd: number;   
+  scrollStart: number;
+  scrollEnd: number;
   frameStart: number;
   frameEnd: number;
 }
@@ -155,12 +155,12 @@ export default function WatchSequenceHero() {
       canvas.height = window.innerHeight * dpr;
       canvas.style.width = `${window.innerWidth}px`;
       canvas.style.height = `${window.innerHeight}px`;
-      
+
       const ctx = canvas.getContext("2d");
       if (ctx) {
         ctx.scale(dpr, dpr);
       }
-      
+
       renderFrame(Math.round(animationObj.current.frame));
     };
 
@@ -186,7 +186,7 @@ export default function WatchSequenceHero() {
 
         // Return rotation to 0 when stopped
         if (Math.abs(vel) < 10) {
-           gsap.to(canvasRef.current, { rotation: 0, duration: 1, ease: "power2.out", overwrite: "auto" });
+          gsap.to(canvasRef.current, { rotation: 0, duration: 1, ease: "power2.out", overwrite: "auto" });
         }
 
         // Find which segment we are currently in based on scroll progress
@@ -203,15 +203,15 @@ export default function WatchSequenceHero() {
         } else {
           for (const seg of SCROLL_SEGMENTS) {
             if (p >= seg.scrollStart && p <= seg.scrollEnd) {
-              const segmentProgress = (seg.scrollEnd === seg.scrollStart) 
-                ? 0 
+              const segmentProgress = (seg.scrollEnd === seg.scrollStart)
+                ? 0
                 : (p - seg.scrollStart) / (seg.scrollEnd - seg.scrollStart);
               targetFrame = seg.frameStart + (seg.frameEnd - seg.frameStart) * segmentProgress;
               break;
             }
           }
         }
-        
+
         targetFrame = Math.min(FRAME_COUNT - 1, Math.max(0, Math.floor(targetFrame)));
 
         gsap.to(animationObj.current, {
@@ -229,17 +229,24 @@ export default function WatchSequenceHero() {
       trigger: containerRef.current,
       start: "top top",
       end: "bottom bottom",
-      scrub: 0.5,
+      scrub: 1, // Slight smoothing for text
       animation: gsap.timeline()
-        .fromTo(".hero-title-aura", 
-          { opacity: 0, scale: 0.95, filter: "blur(10px)" }, 
-          { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.3, ease: "power2.out" }
+        // Phase 1: The Breath — centered, grows from 70% to 100%, letter-spacing expands
+        .fromTo(".logo-watermark",
+          { xPercent: -50, yPercent: -50, x: "0vw", scale: 0.7, letterSpacing: "0.05em" },
+          { scale: 1, letterSpacing: "0.35em", ease: "none", duration: 0.70 },
+          0
         )
-        .to(".hero-title-aura", { opacity: 0.1, scale: 1.05, duration: 0.7, ease: "none" }, ">")
-        .fromTo(".hero-subtitle-precision", 
-          { opacity: 0, y: 20 }, 
-          { opacity: 1, y: 0, duration: 0.2, ease: "power2.out" }, 
-          0.7 // Starts exactly at 70% scroll progress (which aligns with frame 180 segment)
+        // Phase 2: The Drift — moves right + shrinks to compact size
+        .to(".logo-watermark", 
+          { x: "32vw", scale: 0.28, ease: "power2.inOut", duration: 0.22 }, 
+          0.70
+        )
+        // Phase 3: The Reveal — tagline fades up ONLY after drift completes
+        .fromTo(".hero-tagline",
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, ease: "power2.out", duration: 0.08 },
+          ">"
         )
     });
 
@@ -274,7 +281,7 @@ export default function WatchSequenceHero() {
       </div>
 
       {/* Hero Content Container (provides scroll height) */}
-      <div ref={containerRef} className="relative h-[200vh] w-full z-10 pointer-events-none bg-midnight">
+      <div ref={containerRef} className="relative h-[300vh] w-full z-10 pointer-events-none bg-midnight">
         {/* The canvas sits behind everything, fixed to screen */}
         <canvas
           ref={canvasRef}
@@ -282,16 +289,36 @@ export default function WatchSequenceHero() {
         />
 
         <div className="sticky top-0 h-screen flex flex-col justify-center items-center px-6 md:px-20 overflow-hidden pointer-events-auto">
-          
-          {/* Typographic Lockup */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none">
-            <h2 className="hero-title-aura text-[12vw] font-display text-foreground font-light tracking-[0.2em] uppercase leading-none opacity-0 mix-blend-overlay">
+
+          {/* AURA Heading — white, fully opaque, prominent */}
+          <div
+            className="logo-watermark absolute left-1/2 top-1/2 will-change-transform whitespace-nowrap z-10"
+            style={{ 
+              transformOrigin: "center center", 
+              transform: "translate(-50%, -50%)",
+              fontSize: "clamp(130px, 20.8vw, 312px)",
+              lineHeight: 1,
+            }}
+          >
+            <span className="block font-medium text-white" style={{ fontFamily: "var(--font-bodoni)", textShadow: "0 4px 30px rgba(0,0,0,0.25)" }}>
               AURA
-            </h2>
-            <p className="hero-subtitle-precision font-mono text-sm md:text-base text-titanium tracking-[0.4em] uppercase mt-8 opacity-0">
-              Precision on Your Wrist
-            </p>
+            </span>
           </div>
+
+          {/* Tagline — PRE-POSITIONED at right side, only fades up */}
+          <p
+            className="hero-tagline absolute top-[58%] will-change-transform text-red-500 uppercase font-normal whitespace-nowrap z-10"
+            style={{
+              left: "50%",
+              transform: "translateX(calc(-50% + 32vw))",
+              fontSize: "clamp(13px, 1.3vw, 17px)",
+              letterSpacing: "0.25em",
+              fontFamily: "var(--font-slab)",
+              opacity: 0,
+            }}
+          >
+            Precision on your wrist
+          </p>
 
           {/* Top-left corner detail */}
           <div className="absolute top-24 left-6 md:left-12 z-10 opacity-40">
