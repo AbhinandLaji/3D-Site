@@ -12,6 +12,13 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const navLinks = [
+    { name: "THE WATCH", href: "#the-watch" },
+    { name: "THE CRAFT", href: "#the-craft" },
+    { name: "ATELIER", href: "#atelier" },
+    { name: "JOURNAL", href: "#journal" }
+  ];
+
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 header-responsive ${
       scrolled 
@@ -21,7 +28,7 @@ export default function Navbar() {
       <div className="flex justify-between items-center max-w-7xl mx-auto px-6 md:px-12">
         
         {/* Logo */}
-        <a href="#" className="group flex items-center gap-3">
+        <a href="#the-watch" className="group flex items-center gap-3">
           <div className="w-8 h-8 rounded-full border border-titanium flex items-center justify-center relative transition-transform duration-700 group-hover:rotate-[360deg]">
             {/* Minimal Watch Face Icon */}
             <div className="w-0.5 h-3 bg-titanium absolute bottom-1/2 left-1/2 -translate-x-1/2 origin-bottom rounded-full"></div>
@@ -33,9 +40,9 @@ export default function Navbar() {
         
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-10">
-          {["THE WATCH", "THE CRAFT", "ATELIER", "JOURNAL"].map((item) => (
-            <a key={item} href="#" className="relative group text-xs tracking-[0.2em] font-medium text-foreground opacity-70 hover:opacity-100 transition-opacity duration-300">
-              {item}
+          {navLinks.map((link) => (
+            <a key={link.name} href={link.href} className="relative group text-xs tracking-[0.2em] font-medium text-foreground opacity-70 hover:opacity-100 transition-opacity duration-300">
+              {link.name}
               <span className="absolute bottom-0 left-0 w-0 h-px bg-gold transition-all duration-500 group-hover:w-full"></span>
             </a>
           ))}
@@ -61,9 +68,9 @@ export default function Navbar() {
       <div className={`md:hidden overflow-hidden transition-all duration-500 ease-in-out ${isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
         <div className="glass-sapphire px-6 pb-8 pt-6 flex flex-col gap-0 border-b border-titanium/20">
           <div className="h-px bg-gradient-to-r from-transparent via-titanium to-transparent mb-6 w-full" />
-          {["THE WATCH", "THE CRAFT", "ATELIER", "JOURNAL"].map((item, i) => (
-            <a key={item} href="#" className="flex items-center justify-between py-4 border-b border-titanium/10 text-sm tracking-[0.2em] font-medium text-foreground opacity-80 hover:opacity-100 transition-opacity duration-300">
-              <span>{item}</span>
+          {navLinks.map((link, i) => (
+            <a key={link.name} href={link.href} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-between py-4 border-b border-titanium/10 text-sm tracking-[0.2em] font-medium text-foreground opacity-80 hover:opacity-100 transition-opacity duration-300">
+              <span>{link.name}</span>
               <span className="text-gold font-light">0{i + 1}</span>
             </a>
           ))}

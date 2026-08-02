@@ -238,7 +238,7 @@ export default function WatchContentSections() {
     <div ref={containerRef} className="relative z-20 w-full bg-background overflow-hidden">
 
       {/* SECTION 1: THE CASE */}
-      <section className="relative min-h-screen flex flex-col md:flex-row items-center py-20 px-6 md:px-20 bg-background text-foreground">
+      <section id="the-craft" className="relative min-h-screen flex flex-col md:flex-row items-center py-20 px-6 md:px-20 bg-background text-foreground">
         <div className="w-full md:w-1/2 h-[50vh] md:h-screen relative overflow-hidden flex items-center justify-center">
           <div className="absolute inset-0 bg-brushed opacity-30"></div>
           <MacroSlideshow />
@@ -438,7 +438,7 @@ export default function WatchContentSections() {
       </div>
 
       {/* SECTION 5: CONFIGURE YOURS */}
-      <section className="relative min-h-screen py-32 px-6 md:px-20 bg-background flex flex-col items-center">
+      <section id="atelier" className="relative min-h-screen py-32 px-6 md:px-20 bg-background flex flex-col items-center">
         <div className="text-center mb-20">
           <h2 className="font-display text-4xl md:text-6xl font-light text-engraved mb-6">The Atelier</h2>
           <p className="font-mono text-sm tracking-[0.2em] text-titanium uppercase">Select your caliber</p>

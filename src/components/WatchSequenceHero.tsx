@@ -305,7 +305,7 @@ export default function WatchSequenceHero() {
       </div>
 
       {/* Hero Content Container (provides scroll height) */}
-      <div ref={containerRef} className="relative h-[300vh] w-full z-10 pointer-events-none bg-midnight">
+      <div id="the-watch" ref={containerRef} className="relative h-[300vh] w-full z-10 pointer-events-none bg-midnight">
         {/* FIX #8: will-change: transform promotes canvas to its own GPU compositing layer */}
         <canvas
           ref={canvasRef}
