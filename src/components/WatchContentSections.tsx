@@ -50,14 +50,14 @@ function MacroSlideshow() {
   }, []);
 
   return (
-    <div className="relative z-10 w-3/4 md:w-4/5 aspect-square border border-titanium/20 rounded-full flex items-center justify-center bg-black/10 backdrop-blur-sm overflow-hidden">
+    <div className="relative z-10 w-11/12 md:w-5/6 aspect-[4/3] border border-titanium/15 rounded-[2rem] md:rounded-[3rem] flex items-center justify-center bg-black/25 shadow-[0_25px_60px_rgba(0,0,0,0.6)] overflow-hidden transition-all duration-700 hover:scale-[1.02]">
       {macroImages.map((src, idx) => (
         <Image
           key={src}
           src={src}
           alt={`Macro shot ${idx + 1}`}
           fill
-          sizes="(max-width: 768px) 75vw, 40vw"
+          sizes="(max-width: 768px) 90vw, 45vw"
           className={`object-cover transition-opacity duration-1000 ease-in-out ${
             idx === macroIndex ? "opacity-100" : "opacity-0"
           }`}
@@ -249,24 +249,24 @@ export default function WatchContentSections() {
             Grade 5 titanium. <br />Sapphire crystal. <br />50 meters of quiet confidence.
           </h2>
 
-          <div className="flex flex-col gap-8 mt-12 border-l border-titanium/20 pl-8">
+          <div className="grid grid-cols-3 gap-6 mt-16 pt-10 border-t border-titanium/10 w-full max-w-xl text-left">
             <div>
-              <div className="text-4xl font-mono font-light text-titanium">
+              <div className="text-3xl md:text-4xl font-mono font-light text-titanium">
                 <span ref={(el) => { specNumbersRef.current[0] = el; }} data-target="42" data-suffix="mm">0mm</span>
               </div>
-              <div className="text-xs font-mono uppercase tracking-widest text-foreground/50 mt-2">Case Diameter</div>
+              <div className="text-[9px] font-mono uppercase tracking-widest text-foreground/40 mt-2">Case Diameter</div>
             </div>
             <div>
-              <div className="text-4xl font-mono font-light text-titanium">
+              <div className="text-3xl md:text-4xl font-mono font-light text-titanium">
                 <span ref={(el) => { specNumbersRef.current[1] = el; }} data-target="72" data-suffix="hrs">0hrs</span>
               </div>
-              <div className="text-xs font-mono uppercase tracking-widest text-foreground/50 mt-2">Power Reserve</div>
+              <div className="text-[9px] font-mono uppercase tracking-widest text-foreground/40 mt-2">Power Reserve</div>
             </div>
             <div>
-              <div className="text-4xl font-mono font-light text-titanium">
+              <div className="text-3xl md:text-4xl font-mono font-light text-titanium">
                 <span ref={(el) => { specNumbersRef.current[2] = el; }} data-target="100" data-suffix="m">0m</span>
               </div>
-              <div className="text-xs font-mono uppercase tracking-widest text-foreground/50 mt-2">Water Resistance</div>
+              <div className="text-[9px] font-mono uppercase tracking-widest text-foreground/40 mt-2">Water Resistance</div>
             </div>
           </div>
         </div>
