@@ -339,7 +339,7 @@ export default function WatchSequenceHero() {
             style={{ 
               transformOrigin: "center center", 
               transform: "translate(-50%, -50%)",
-              fontSize: "clamp(130px, 20.8vw, 312px)",
+              fontSize: "clamp(80px, min(19vw, 22vh), 280px)",
               lineHeight: 1,
             }}
           >
@@ -348,14 +348,14 @@ export default function WatchSequenceHero() {
             </span>
           </div>
 
-          {/* Tagline — PRE-POSITIONED at right side, only fades up */}
+          {/* Tagline — placed cleanly below AURA */}
           <p
-            className="hero-tagline absolute top-[58%] will-change-transform text-red-500 uppercase font-normal whitespace-nowrap z-10"
+            className="hero-tagline absolute top-[60%] will-change-transform text-red-500 uppercase font-normal whitespace-nowrap z-10"
             style={{
               left: "50%",
-              transform: "translateX(calc(-50% + 32vw))",
-              fontSize: "clamp(13px, 1.3vw, 17px)",
-              letterSpacing: "0.25em",
+              transform: "translateX(-50%)",
+              fontSize: "clamp(10px, 1.2vw, 15px)",
+              letterSpacing: "0.3em",
               fontFamily: "var(--font-slab)",
               opacity: 0,
             }}

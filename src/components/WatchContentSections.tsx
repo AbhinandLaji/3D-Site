@@ -276,7 +276,7 @@ export default function WatchContentSections() {
       <WatchTapReveal aodImage="/images/watch-aod.jpg" activeImage="/images/watch-active.jpg" />
 
       {/* SECTION 3: THE BAND SLIDER (GlideSpeakers Restructure) */}
-      <section className="relative min-h-[125vh] bg-[#07070a] text-foreground flex flex-col justify-between overflow-hidden py-10 px-6 md:px-16 border-t border-titanium/5">
+      <section className="relative min-h-screen bg-[#07070a] text-foreground flex flex-col items-center justify-center overflow-hidden py-24 px-6 md:px-16 border-t border-titanium/5">
         
         {/* Slider Header */}
         <div className="flex justify-between items-center w-full relative z-30">
