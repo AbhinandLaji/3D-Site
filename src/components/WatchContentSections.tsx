@@ -119,25 +119,6 @@ export default function WatchContentSections() {
       return () => ctx.revert();
     });
 
-    // Section 2: Complications Fade In
-    const complications = gsap.utils.toArray(".complication");
-    gsap.fromTo(
-      complications,
-      { opacity: 0, scale: 0.8, y: 10 },
-      {
-        opacity: 1,
-        scale: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        ease: "back.out(1.7)",
-        scrollTrigger: {
-          trigger: ".movement-section",
-          start: "top 50%",
-          onToggle: (self) => ownTriggers.push(self), // FIX #4
-        },
-      }
-    );
 
     // Section 3: Horizontal Scroll (The Band)
     if (bandWrapperRef.current && bandContainerRef.current) {
@@ -207,6 +188,9 @@ export default function WatchContentSections() {
       {/* SECTION 2: THE MOVEMENT */}
       <WatchTapReveal aodImage="/images/watch-aod.jpg" activeImage="/images/watch-active.jpg" />
 
+      {/* SECTION 3: THE BANDS */}
+      <div ref={bandWrapperRef} className="relative w-full h-screen overflow-hidden">
+        <div ref={bandContainerRef} className="flex h-full w-[300vw]">
           {/* Panel 1: Leather */}
           <div className="band-panel w-screen h-full flex flex-col md:flex-row items-center justify-center p-8 md:p-24 relative border-r border-titanium/10 overflow-hidden">
             <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,rgba(185,28,28,0.15)_0%,transparent_70%)]"></div>
@@ -326,6 +310,8 @@ export default function WatchContentSections() {
               </div>
             </div>
           </div>
+        </div>
+      </div>
 
       {/* SECTION 4: TIMEKEEPING */}
       <section className="relative min-h-screen flex items-center justify-center py-20 px-6 bg-midnight overflow-hidden">
