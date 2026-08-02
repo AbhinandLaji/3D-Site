@@ -296,7 +296,7 @@ export default function WatchContentSections() {
           
           {/* Slides Track */}
           <div 
-            className="relative w-full max-w-5xl h-[330px] md:h-[350px] flex items-center justify-center cursor-grab active:cursor-grabbing touch-none select-none"
+            className="relative w-full max-w-5xl h-[400px] md:h-[520px] flex items-center justify-center cursor-grab active:cursor-grabbing touch-none select-none"
             onMouseDown={(e) => handleDragStart(e.clientX)}
             onMouseMove={(e) => handleDragMove(e.clientX)}
             onMouseUp={handleDragEnd}
@@ -331,12 +331,12 @@ export default function WatchContentSections() {
                     ${isOuterLeft || isOuterRight ? "z-10 scale-[0.55] opacity-[0.08] cursor-pointer hover:opacity-[0.15] blur-[2.5px]" : ""}
                   `}
                   style={{
-                    transform: `translateX(calc(${offset * 105}% + ${dragX}px))`,
+                    transform: `translateX(calc(${offset * 110}% + ${dragX}px))`,
                     pointerEvents: (isActive || isLeft || isRight) ? "auto" : "none",
                   }}
                 >
                   {/* Card Image */}
-                  <div className={`relative w-[240px] md:w-[280px] aspect-[3/4] rounded-lg overflow-hidden border border-white/10 shadow-[0_20px_45px_rgba(0,0,0,0.8)] transition-all duration-700
+                  <div className={`relative w-[280px] md:w-[360px] aspect-[3/4] rounded-lg overflow-hidden border border-white/10 shadow-[0_20px_45px_rgba(0,0,0,0.8)] transition-all duration-700
                     ${isActive ? "scale-100" : "scale-[0.9]"}
                   `}>
                     <Image
@@ -344,7 +344,7 @@ export default function WatchContentSections() {
                       alt={slide.name}
                       fill
                       className="object-cover"
-                      sizes="(max-width: 768px) 240px, 280px"
+                      sizes="(max-width: 768px) 280px, 360px"
                       priority={index === 0}
                     />
                     
