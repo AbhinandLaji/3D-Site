@@ -15,6 +15,21 @@ export default function WatchContentSections() {
   // Live time state for Section 4
   const [timeString, setTimeString] = useState("");
 
+  // Slideshow state for Section 1
+  const [macroIndex, setMacroIndex] = useState(0);
+  const macroImages = [
+    '/macro/macro-1.jpg',
+    '/macro/macro-2.jpg',
+    '/macro/macro-3.jpg'
+  ];
+
+  useEffect(() => {
+    const slideTimer = setInterval(() => {
+      setMacroIndex(prev => (prev + 1) % macroImages.length);
+    }, 4000); // 4-second crossfade interval
+    return () => clearInterval(slideTimer);
+  }, []);
+
   useEffect(() => {
     // Live clock update
     const updateTime = () => {
@@ -110,10 +125,19 @@ export default function WatchContentSections() {
       {/* SECTION 1: THE CASE (Materials) */}
       <section className="relative min-h-screen flex flex-col md:flex-row items-center py-20 px-6 md:px-20 bg-background text-foreground">
         <div className="w-full md:w-1/2 h-[50vh] md:h-screen relative overflow-hidden flex items-center justify-center">
-          {/* Placeholder for Macro Image */}
+          {/* Macro Image Slideshow */}
           <div className="absolute inset-0 bg-brushed opacity-30"></div>
-          <div className="relative z-10 w-3/4 aspect-square border border-titanium/20 rounded-full flex items-center justify-center bg-black/10 backdrop-blur-sm">
-            <span className="font-mono text-titanium/50 text-xs tracking-widest">[MACRO SHOT PLACEHOLDER]</span>
+          <div className="relative z-10 w-3/4 md:w-4/5 aspect-square border border-titanium/20 rounded-full flex items-center justify-center bg-black/10 backdrop-blur-sm overflow-hidden">
+            {macroImages.map((src, idx) => (
+              <img
+                key={src}
+                src={src}
+                alt={`Macro shot ${idx + 1}`}
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${
+                  idx === macroIndex ? "opacity-100" : "opacity-0"
+                }`}
+              />
+            ))}
           </div>
         </div>
         <div className="w-full md:w-1/2 flex flex-col justify-center pl-0 md:pl-20 mt-12 md:mt-0">
