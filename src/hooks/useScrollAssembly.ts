@@ -3,9 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as THREE from "three";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+// FIX #3: ScrollTrigger is registered once in LenisProvider — no duplicate registration here
 
 export function useScrollAssembly() {
   const [modelRef, setModelRef] = useState<THREE.Group | null>(null);
@@ -27,24 +25,24 @@ export function useScrollAssembly() {
         scrollTrigger: { trigger: document.body, start: "top top", end: "bottom bottom", scrub: 1 },
       });
 
-      // To Materials — move shoe right to show left-side content
-      tl.to(el.position, { x: 1.5, y: -0.2, z: 0, duration: 1, ease: "power1.inOut" }, 0);
-      tl.to(el.rotation, { x: 0, y: -1.2, z: 0.1, duration: 1, ease: "power1.inOut" }, 0);
-      tl.to(el.scale, { x: 1.0, y: 1.0, z: 1.0, duration: 1, ease: "power1.inOut" }, 0);
+      // FIX #12: overwrite: "auto" prevents accumulation of tweens during rapid scroll
+      tl.to(el.position, { x: 1.5, y: -0.2, z: 0, duration: 1, ease: "power1.inOut", overwrite: "auto" }, 0);
+      tl.to(el.rotation, { x: 0, y: -1.2, z: 0.1, duration: 1, ease: "power1.inOut", overwrite: "auto" }, 0);
+      tl.to(el.scale, { x: 1.0, y: 1.0, z: 1.0, duration: 1, ease: "power1.inOut", overwrite: "auto" }, 0);
 
       // To Engineering — move shoe left for right-side content
-      tl.to(el.position, { x: -1.5, y: 0, z: 0.5, duration: 1, ease: "power1.inOut" }, 1);
-      tl.to(el.rotation, { x: 0.2, y: 1.2, z: -0.1, duration: 1, ease: "power1.inOut" }, 1);
-      tl.to(el.scale, { x: 1.1, y: 1.1, z: 1.1, duration: 1, ease: "power1.inOut" }, 1);
+      tl.to(el.position, { x: -1.5, y: 0, z: 0.5, duration: 1, ease: "power1.inOut", overwrite: "auto" }, 1);
+      tl.to(el.rotation, { x: 0.2, y: 1.2, z: -0.1, duration: 1, ease: "power1.inOut", overwrite: "auto" }, 1);
+      tl.to(el.scale, { x: 1.1, y: 1.1, z: 1.1, duration: 1, ease: "power1.inOut", overwrite: "auto" }, 1);
 
       // To Sustainability — top-down dramatic angle
-      tl.to(el.position, { x: 0, y: 1, z: -1, duration: 1, ease: "power1.inOut" }, 2);
-      tl.to(el.rotation, { x: 1.2, y: 0, z: 0, duration: 1, ease: "power1.inOut" }, 2);
-      tl.to(el.scale, { x: 1.0, y: 1.0, z: 1.0, duration: 1, ease: "power1.inOut" }, 2);
+      tl.to(el.position, { x: 0, y: 1, z: -1, duration: 1, ease: "power1.inOut", overwrite: "auto" }, 2);
+      tl.to(el.rotation, { x: 1.2, y: 0, z: 0, duration: 1, ease: "power1.inOut", overwrite: "auto" }, 2);
+      tl.to(el.scale, { x: 1.0, y: 1.0, z: 1.0, duration: 1, ease: "power1.inOut", overwrite: "auto" }, 2);
 
       // Fade out for Testimonials & Footer
-      tl.to(el.position, { x: 0, y: 3, z: -3, duration: 0.5, ease: "power1.in" }, 3);
-      tl.to(el.scale, { x: 0, y: 0, z: 0, duration: 0.5, ease: "power1.in" }, 3);
+      tl.to(el.position, { x: 0, y: 3, z: -3, duration: 0.5, ease: "power1.in", overwrite: "auto" }, 3);
+      tl.to(el.scale, { x: 0, y: 0, z: 0, duration: 0.5, ease: "power1.in", overwrite: "auto" }, 3);
     });
 
     // MOBILE ANIMATIONS
@@ -59,23 +57,23 @@ export function useScrollAssembly() {
       });
 
       // Phase 1 (Materials): Move model DOWN so text can be ABOVE it
-      tl.to(el.position, { x: 0, y: -2.5, z: 0, duration: 1, ease: "power1.inOut" }, 0);
-      tl.to(el.rotation, { x: 0, y: -1.2, z: 0, duration: 1, ease: "power1.inOut" }, 0);
-      tl.to(el.scale, { x: 1, y: 1, z: 1, duration: 1, ease: "power1.inOut" }, 0);
+      tl.to(el.position, { x: 0, y: -2.5, z: 0, duration: 1, ease: "power1.inOut", overwrite: "auto" }, 0);
+      tl.to(el.rotation, { x: 0, y: -1.2, z: 0, duration: 1, ease: "power1.inOut", overwrite: "auto" }, 0);
+      tl.to(el.scale, { x: 1, y: 1, z: 1, duration: 1, ease: "power1.inOut", overwrite: "auto" }, 0);
 
       // Phase 2 (Engineering): Move model UP so text can be BELOW it
-      tl.to(el.position, { x: 0, y: 1.5, z: 0, duration: 1, ease: "power1.inOut" }, 1);
-      tl.to(el.rotation, { x: 0.2, y: 1.2, z: -0.1, duration: 1, ease: "power1.inOut" }, 1);
-      tl.to(el.scale, { x: 1.1, y: 1.1, z: 1.1, duration: 1, ease: "power1.inOut" }, 1);
+      tl.to(el.position, { x: 0, y: 1.5, z: 0, duration: 1, ease: "power1.inOut", overwrite: "auto" }, 1);
+      tl.to(el.rotation, { x: 0.2, y: 1.2, z: -0.1, duration: 1, ease: "power1.inOut", overwrite: "auto" }, 1);
+      tl.to(el.scale, { x: 1.1, y: 1.1, z: 1.1, duration: 1, ease: "power1.inOut", overwrite: "auto" }, 1);
 
       // Phase 3 (Sustainability)
-      tl.to(el.position, { x: 0, y: -1, z: 0, duration: 1, ease: "power1.inOut" }, 2);
-      tl.to(el.rotation, { x: 1, y: 0, z: 0, duration: 1, ease: "power1.inOut" }, 2);
-      tl.to(el.scale, { x: 0.9, y: 0.9, z: 0.9, duration: 1, ease: "power1.inOut" }, 2);
+      tl.to(el.position, { x: 0, y: -1, z: 0, duration: 1, ease: "power1.inOut", overwrite: "auto" }, 2);
+      tl.to(el.rotation, { x: 1, y: 0, z: 0, duration: 1, ease: "power1.inOut", overwrite: "auto" }, 2);
+      tl.to(el.scale, { x: 0.9, y: 0.9, z: 0.9, duration: 1, ease: "power1.inOut", overwrite: "auto" }, 2);
 
       // Fade out for Testimonials & Footer
-      tl.to(el.position, { x: 0, y: 3, z: -3, duration: 0.5, ease: "power1.in" }, 3);
-      tl.to(el.scale, { x: 0, y: 0, z: 0, duration: 0.5, ease: "power1.in" }, 3);
+      tl.to(el.position, { x: 0, y: 3, z: -3, duration: 0.5, ease: "power1.in", overwrite: "auto" }, 3);
+      tl.to(el.scale, { x: 0, y: 0, z: 0, duration: 0.5, ease: "power1.in", overwrite: "auto" }, 3);
     });
 
     return () => {
