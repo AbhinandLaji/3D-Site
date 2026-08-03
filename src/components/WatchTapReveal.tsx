@@ -114,7 +114,7 @@ export default function WatchTapReveal({ aodImage, activeImage }: WatchTapReveal
                     transform: isActive ? "scale(1.05)" : "scale(1)",
                   }}
                   priority
-                  sizes="(max-width: 768px) 280px, (max-width: 1024px) 380px, 440px"
+                  sizes="(max-width: 768px) 200px, (max-width: 1024px) 350px, 440px"
                 />
                 <Image
                   src={activeImage}
@@ -127,7 +127,7 @@ export default function WatchTapReveal({ aodImage, activeImage }: WatchTapReveal
                     transform: isActive ? "scale(1)" : "scale(1.05)",
                   }}
                   priority
-                  sizes="(max-width: 768px) 280px, (max-width: 1024px) 380px, 440px"
+                  sizes="(max-width: 768px) 200px, (max-width: 1024px) 350px, 440px"
                 />
               </div>
             </div>

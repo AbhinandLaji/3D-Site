@@ -81,52 +81,70 @@ export default function WatchSequenceHero() {
     ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
   };
 
-  // FIX #1: Progressive loading — lock scroll only until CRITICAL_FRAMES are ready,
-  // then continue loading the rest in the background without blocking the user.
+  // Progressive prioritized preloading: Load the first 40 critical frames first,
+  // unlock the splash screen, then load the remaining 200 in the background.
   useEffect(() => {
     document.documentElement.classList.add("lenis-stopped");
 
-    const onImageLoaded = (i: number) => {
-      loadedCountRef.current++;
-      const count = loadedCountRef.current;
+    let loadedCriticalCount = 0;
 
-      // Only trigger a React state update every 10 frames (for the progress bar),
-      // and always on critical milestone + full completion.
-      if (count % 10 === 0 || count === CRITICAL_FRAMES || count === FRAME_COUNT) {
-        setLoadedImages(count);
+    const loadImage = (index: number): Promise<void> => {
+      return new Promise((resolve) => {
+        const img = new Image();
+        imagesRef.current[index - 1] = img;
+        img.onload = () => resolve();
+        img.onerror = () => resolve();
+        img.src = getFrameUrl(index);
+      });
+    };
+
+    const loadCriticalFrames = async () => {
+      const promises = [];
+      for (let i = 1; i <= CRITICAL_FRAMES; i++) {
+        promises.push(
+          loadImage(i).then(() => {
+            loadedCriticalCount++;
+            setLoadedImages(loadedCriticalCount);
+          })
+        );
       }
 
-      // FIX #1: Unlock scroll after critical frames are ready
-      if (count === CRITICAL_FRAMES && !scrollUnlockedRef.current) {
-        scrollUnlockedRef.current = true;
-        renderFrame(0);
+      await Promise.all(promises);
 
-        if (loadingTextRef.current && loadingContainerRef.current) {
-          gsap.timeline({
-            onComplete: () => {
-              document.documentElement.classList.remove("lenis-stopped");
-              if (loadingContainerRef.current) {
-                loadingContainerRef.current.style.display = "none";
-              }
-            },
-          })
-            .to(loadingTextRef.current, { opacity: 0, y: 20, duration: 0.5, ease: "power2.inOut" })
-            .to(loadingContainerRef.current, { opacity: 0, duration: 0.8, ease: "power2.inOut" }, "-=0.2");
-        } else {
-          document.documentElement.classList.remove("lenis-stopped");
-        }
+      // Critical frames loaded! Unlock scroll and fade out splash screen.
+      scrollUnlockedRef.current = true;
+      renderFrame(0);
+
+      if (loadingTextRef.current && loadingContainerRef.current) {
+        gsap.timeline({
+          onComplete: () => {
+            document.documentElement.classList.remove("lenis-stopped");
+            if (loadingContainerRef.current) {
+              loadingContainerRef.current.style.display = "none";
+            }
+            // Start loading background frames after splash screen fades
+            loadBackgroundFrames();
+          },
+        })
+          .to(loadingTextRef.current, { opacity: 0, y: 20, duration: 0.5, ease: "power2.inOut" })
+          .to(loadingContainerRef.current, { opacity: 0, duration: 0.8, ease: "power2.inOut" }, "-=0.2");
+      } else {
+        document.documentElement.classList.remove("lenis-stopped");
+        loadBackgroundFrames();
       }
     };
 
-    for (let i = 1; i <= FRAME_COUNT; i++) {
-      const img = new Image();
-      imagesRef.current[i - 1] = img;
+    const loadBackgroundFrames = () => {
+      for (let i = CRITICAL_FRAMES + 1; i <= FRAME_COUNT; i++) {
+        loadImage(i);
+      }
+    };
 
-      img.onload = () => onImageLoaded(i);
-      img.onerror = () => onImageLoaded(i);
-      
-      img.src = getFrameUrl(i);
-    }
+    loadCriticalFrames();
+
+    return () => {
+      document.documentElement.classList.remove("lenis-stopped");
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // ← runs ONCE only
 
@@ -321,7 +339,7 @@ export default function WatchSequenceHero() {
             style={{ 
               transformOrigin: "center center", 
               transform: "translate(-50%, -50%)",
-              fontSize: "clamp(130px, 20.8vw, 312px)",
+              fontSize: "clamp(80px, min(19vw, 22vh), 280px)",
               lineHeight: 1,
             }}
           >
@@ -330,14 +348,14 @@ export default function WatchSequenceHero() {
             </span>
           </div>
 
-          {/* Tagline — PRE-POSITIONED at right side, only fades up */}
+          {/* Tagline — placed cleanly below AURA */}
           <p
-            className="hero-tagline absolute top-[58%] will-change-transform text-red-500 uppercase font-normal whitespace-nowrap z-10"
+            className="hero-tagline absolute top-[60%] will-change-transform text-red-500 uppercase font-normal whitespace-nowrap z-10"
             style={{
               left: "50%",
-              transform: "translateX(calc(-50% + 32vw))",
-              fontSize: "clamp(13px, 1.3vw, 17px)",
-              letterSpacing: "0.25em",
+              transform: "translateX(-50%)",
+              fontSize: "clamp(10px, 1.2vw, 15px)",
+              letterSpacing: "0.3em",
               fontFamily: "var(--font-slab)",
               opacity: 0,
             }}

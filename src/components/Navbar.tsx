@@ -51,6 +51,8 @@ export default function Navbar() {
         {/* Mobile Right Section (Menu) */}
         <div className="flex md:hidden items-center gap-4">
           <button 
+            aria-label="Toggle mobile menu"
+            aria-expanded={isMobileMenuOpen}
             className="p-2 text-foreground transition-transform duration-300"
             style={{ transform: isMobileMenuOpen ? 'rotate(90deg)' : 'rotate(0deg)' }}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

@@ -21,8 +21,8 @@ function LiveClock() {
           minute: "2-digit",
           second: "2-digit",
         }) +
-          " : " +
-          now.getMilliseconds().toString().padStart(3, "0")
+        " : " +
+        now.getMilliseconds().toString().padStart(3, "0")
       );
     };
     const timerId = setInterval(updateTime, 47);
@@ -58,9 +58,8 @@ function MacroSlideshow() {
           alt={`Macro shot ${idx + 1}`}
           fill
           sizes="(max-width: 768px) 90vw, 45vw"
-          className={`object-cover transition-opacity duration-1000 ease-in-out ${
-            idx === macroIndex ? "opacity-100" : "opacity-0"
-          }`}
+          className={`object-cover transition-opacity duration-1000 ease-in-out ${idx === macroIndex ? "opacity-100" : "opacity-0"
+            }`}
           loading={idx === 0 ? "eager" : "lazy"}
         />
       ))}
@@ -75,7 +74,7 @@ export default function WatchContentSections() {
 
   // Stateful Slider for The Band (restructured to match GLIDESPEAKERS mockup layout)
   const [activeSlide, setActiveSlide] = useState(0);
-  
+
   // Dragging states for swipe gestures
   const [dragX, setDragX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -178,7 +177,7 @@ export default function WatchContentSections() {
   const handleDragEnd = () => {
     if (!isDragging) return;
     setIsDragging(false);
-    
+
     // Swipe threshold: 60px
     if (dragX < -60) {
       handleNext();
@@ -276,8 +275,8 @@ export default function WatchContentSections() {
       <WatchTapReveal aodImage="/images/watch-aod.jpg" activeImage="/images/watch-active.jpg" />
 
       {/* SECTION 3: THE BAND SLIDER (GlideSpeakers Restructure) */}
-      <section className="relative min-h-[125vh] bg-[#07070a] text-foreground flex flex-col justify-between overflow-hidden py-10 px-6 md:px-16 border-t border-titanium/5">
-        
+      <section className="relative min-h-screen bg-[#07070a] text-foreground flex flex-col items-center justify-center overflow-hidden py-24 px-6 md:px-16 border-t border-titanium/5">
+
         {/* Slider Header */}
         <div className="flex justify-between items-center w-full relative z-30">
           <span className="font-display text-lg tracking-[0.3em] font-light text-foreground opacity-90">AURA / STRAPS</span>
@@ -293,9 +292,9 @@ export default function WatchContentSections() {
 
         {/* Slider Main Viewport */}
         <div className="relative flex-grow flex flex-col items-center justify-center w-full z-20 my-6">
-          
+
           {/* Slides Track */}
-          <div 
+          <div
             className="relative w-full max-w-5xl h-[400px] md:h-[520px] flex items-center justify-center cursor-grab active:cursor-grabbing touch-none select-none"
             onMouseDown={(e) => handleDragStart(e.clientX)}
             onMouseMove={(e) => handleDragMove(e.clientX)}
@@ -344,13 +343,13 @@ export default function WatchContentSections() {
                       alt={slide.name}
                       fill
                       className="object-cover"
-                      sizes="(max-width: 768px) 280px, 360px"
+                      sizes="(max-width: 768px) 266px, 360px"
                       priority={index === 0}
                     />
-                    
+
                     {/* Dark gradient base inside image */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent"></div>
-                    
+
                     {/* Slide Text Overlaid inside bottom of the Active Card */}
                     {isActive && (
                       <div className="absolute bottom-6 left-6 right-6 text-left">
@@ -399,10 +398,11 @@ export default function WatchContentSections() {
 
         </div>
 
-        {/* Bottom Left: Scroll Down indicator */}
+        {/* Scroll Down indicator */}
         <div className="flex justify-start w-full relative z-30 pt-2">
           <button
             onClick={scrollDownToTimekeeping}
+            aria-label="Scroll down to timekeeping section"
             className="w-10 h-10 rounded-full border border-titanium/20 flex items-center justify-center text-titanium hover:text-foreground hover:border-gold transition-all duration-300 animate-pulse cursor-pointer"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
